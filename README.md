@@ -1,53 +1,42 @@
-Dear Abhijan,
-
-I hope you're doing well.
-Thank you for joining the virtual meeting. It was great speaking with you and learning more about your background. As discussed, we'd now like to move forward with the practical assessment.
-
-The objective of this assignment is to evaluate your understanding of frontend development, component architecture, state management, API integration, responsive design, and overall user experience.
-
 Assessment Task: Employee Leave Management System (Frontend)
 
-Build a responsive web application using Next.js for an Employee Leave Management System.
-You may integrate with your own backend APIs or mock the APIs if required.
-Functional Requirements
-Authentication
-Login page
-JWT token handling
-Protected routes
-Employee Features
-Employees should be able to:
-View a dashboard
-Apply for leave
-View their leave history
-Edit or delete pending leave requests
-Each leave request should display:
-Leave Type
-Start Date
-End Date
-Reason
-Current Status
-Manager Features
-Managers should have a separate dashboard where they can:
-View all leave requests
-Filter requests by employee, leave type, or status
-Approve or reject pending requests
-Dashboard
-Design a clean and intuitive dashboard showing useful information such as:
-Total Leave Requests
-Pending Requests
-Approved Requests
-Rejected Requests
-Feel free to enhance the user experience with additional insights or visualizations where appropriate.
+### Requirement of Assignment
+seperate dashboard for both employee and manager with some details for quick overview of leave requests.
+
+auth with jwt 
+
+two type of users: Employee and Manager. 
+
+employees can apply for leave and view their leave history, 
+edit or delete pending leave requests -> only pending request can be delete or edit,
+each leave should have 
+leave type -> Sick Leave, Casual Leave, Paid Leave, Unpaid Leave something similar,
+start date -> which should be after today 
+end date -> which should be after start date
+reason -> reason for leave
+
+employees can view their leave history, including the status of each request (Pending, Approved, Rejected),
+
+while managers can view all leave requests and approve or reject them.
+
+manager dashboard requirement 
+view all leave requests
+filter requests by employee, leave type, or status
+approve or reject pending requests
+total leave requests, pending requests, approved requests, and rejected requests should be displayed on the dashboard for quick overview. ->should be clean, interactive and clickable to view the list of requests in that category.
+
 Technical Expectations
 Your solution should demonstrate:
 Clean folder structure
 Reusable components
-API abstraction
+API abstraction -> simple to use
 Responsive design
 Proper state management
 Loading, empty, and error states
 Form validation
 Clean and maintainable code
+rtk redux -> state management and rtk query
+
 Bonus (Optional)
 If time permits, you may also include:
 Dark mode
@@ -55,7 +44,6 @@ Charts or analytics
 Skeleton loaders
 Optimistic UI updates
 TypeScript
-React Query/TanStack Query or Zustand
 
 Submission Instructions
 1. Create a new public GitHub repository for this assignment.
@@ -72,5 +60,3 @@ Submission Deadline: Sunday, 19th July 2026 . @ 1:00 PM
 
 Note: The requirements intentionally leave some implementation details open. You are encouraged to make reasonable design decisions and document your assumptions in the README. We are interested in understanding how you think through user experience, component architecture, and application structure—not just the final interface.
 
-If you have any questions regarding the assignment, feel free to reply to this email before the submission deadline.
-We look forward to reviewing your solution.# leave-management-system
