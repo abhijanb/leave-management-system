@@ -2,31 +2,44 @@ import { useForm } from "react-hook-form";
 import { useLoginMutation } from "../authApi";
 import { LoginForm, schema } from "../authSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useAppDispatch } from "@/features/shared/app/hooks";
 import { toast } from "sonner";
+import { setUser } from "../authSlice";
+
+const ROUTES: Record<string, string> = {
+  manager: "/manager",
+  employee: "/",
+};
 
 export function useLogin() {
-    const [login, { isLoading }] = useLoginMutation();
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm<LoginForm>({
-        resolver: zodResolver(schema),
-    });
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const [login, { isLoading }] = useLoginMutation();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginForm>({
+    resolver: zodResolver(schema),
+  });
 
-    const onSubmit = async (data: LoginForm) => {
-        try {
-            await login(data).unwrap();
-            toast.success("Signed in successfully");
-        } catch {
-            toast.error("Invalid email or password");
-        }
-    };
-    return {
-        register,
-        handleSubmit,
-        errors,
-        isLoading,
-        onSubmit,
+  const onSubmit = async (data: LoginForm) => {
+    try {
+      const res = await login(data).unwrap();
+      dispatch(setUser({ email: data.email, role: res.role }));
+      toast.success("Signed in successfully");
+      router.push(ROUTES[res.role] ?? "/");
+    } catch {
+      toast.error("Invalid email or password");
     }
+  };
+
+  return {
+    register,
+    handleSubmit,
+    errors,
+    isLoading,
+    onSubmit,
+  };
 }

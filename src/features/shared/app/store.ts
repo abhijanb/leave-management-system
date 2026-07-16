@@ -5,7 +5,6 @@ import { baseApi } from "./baseApi";
 export const store = configureStore({
   reducer: reducers,
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(baseApi.middleware),
-  devTools: true,
 });
 
 export type AppStore = typeof store;
