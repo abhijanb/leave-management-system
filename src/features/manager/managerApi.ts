@@ -40,6 +40,8 @@ interface LeavesQuery {
   page?: number;
   limit?: number;
   status?: LeaveStatus;
+  type?: LeaveType;
+  employee?: string;
   sortBy?: SortBy;
   sortOrder?: SortOrder;
 }
@@ -51,12 +53,14 @@ export const managerApi = baseApi.injectEndpoints({
       providesTags: ["Stats"],
     }),
     getLeaves: builder.query<LeavesResponse, LeavesQuery>({
-      query: ({ page = 1, limit = 10, status, sortBy, sortOrder }) => ({
+      query: ({ page = 1, limit = 10, status, type, employee, sortBy, sortOrder }) => ({
         url: "/leaves",
         params: {
           page,
           limit,
           ...(status && { status }),
+          ...(type && { type }),
+          ...(employee && { employee }),
           ...(sortBy && { sortBy }),
           ...(sortOrder && { sortOrder }),
         },

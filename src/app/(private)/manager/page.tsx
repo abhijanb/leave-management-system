@@ -1,12 +1,12 @@
 'use client'
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useGetStatsQuery, useGetLeavesQuery } from "@/features/manager/managerApi";
 import { RequestsTable } from "@/features/manager/components/RequestsTable"
 import { StatsGrid, StatsCard } from "@/features/shared/ui/StatsCard";
 import { ErrorMessage } from "@/features/shared/ui/ErrorMessage";
 import { STATUS_LABELS, MESSAGES } from "@/features/shared/constants/messages";
-import type { StatusFilterValue, SortOrder } from "@/features/shared/types";
+import type { StatusFilterValue, TypeFilterValue, SortOrder } from "@/features/shared/types";
 
 const statConfig: { label: string; key: "total" | "pending" | "approved" | "rejected"; color: string; value: StatusFilterValue }[] = [
   { label: "Total Requests", key: "total", color: "text-primary", value: "All" },
@@ -18,16 +18,22 @@ const statConfig: { label: string; key: "total" | "pending" | "approved" | "reje
 export default function ManagerPage() {
   const [page, setPage] = useState(1);
   const [status, setStatus] = useState<StatusFilterValue>("All");
+  const [type, setType] = useState<TypeFilterValue>("All");
+  const [employee, setEmployee] = useState("");
   const [sortOrder, setSortOrder] = useState<SortOrder>("desc");
   const { data: stats, isLoading: statsLoading, isError: statsError } = useGetStatsQuery();
   const { data: leaves, isLoading: leavesLoading, isError: leavesError } = useGetLeavesQuery({
     page, limit: 10,
     status: status === "All" ? undefined : status,
+    type: type === "All" ? undefined : type,
+    employee: employee || undefined,
     sortBy: "startDate",
     sortOrder,
   });
 
-  const handleStatus = (s: StatusFilterValue) => { setStatus(s); setPage(1); };
+  const handleStatus = useCallback((s: StatusFilterValue) => { setStatus(s); setPage(1); }, []);
+  const handleType = useCallback((t: TypeFilterValue) => { setType(t); setPage(1); }, []);
+  const handleEmployee = useCallback((e: string) => { setEmployee(e); setPage(1); }, []);
 
   return (
     <>
@@ -60,6 +66,10 @@ export default function ManagerPage() {
         setPage={setPage}
         status={status}
         setStatus={handleStatus}
+        type={type}
+        setType={handleType}
+        employee={employee}
+        setEmployee={handleEmployee}
         sortOrder={sortOrder}
         onSortToggle={() => setSortOrder((o) => o === "asc" ? "desc" : "asc")}
       />
