@@ -1,8 +1,9 @@
 import { baseApi } from "../shared/app/baseApi";
+import type { UserRole } from "../shared/types";
 
 interface LoginResponse {
   success: boolean;
-  role: string;
+  role: UserRole;
 }
 
 interface LoginRequest {
@@ -13,7 +14,7 @@ interface LoginRequest {
 
 interface MeResponse {
   email: string;
-  role: string;
+  role: UserRole;
 }
 
 export const authApi = baseApi.injectEndpoints({

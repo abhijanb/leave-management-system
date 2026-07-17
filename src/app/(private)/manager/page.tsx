@@ -4,27 +4,30 @@ import { useState } from "react";
 import { useGetStatsQuery, useGetLeavesQuery } from "@/features/manager/managerApi";
 import { RequestsTable } from "@/features/manager/components/RequestsTable"
 import { StatsGrid, StatsCard } from "@/features/shared/ui/StatsCard";
+import { ErrorMessage } from "@/features/shared/ui/ErrorMessage";
+import { STATUS_LABELS, MESSAGES } from "@/features/shared/constants/messages";
+import type { StatusFilterValue, SortOrder } from "@/features/shared/types";
 
-const statConfig = [
-  { label: "Total Requests", key: "total" as const, color: "text-primary", value: "" },
-  { label: "Pending", key: "pending" as const, color: "text-amber-600", value: "Pending" },
-  { label: "Approved", key: "approved" as const, color: "text-emerald-600", value: "Approved" },
-  { label: "Rejected", key: "rejected" as const, color: "text-rose-600", value: "Rejected" },
+const statConfig: { label: string; key: "total" | "pending" | "approved" | "rejected"; color: string; value: StatusFilterValue }[] = [
+  { label: "Total Requests", key: "total", color: "text-primary", value: "All" },
+  { label: STATUS_LABELS.Pending, key: "pending", color: "text-pending-text-strong", value: STATUS_LABELS.Pending },
+  { label: STATUS_LABELS.Approved, key: "approved", color: "text-approved-text-strong", value: STATUS_LABELS.Approved },
+  { label: STATUS_LABELS.Rejected, key: "rejected", color: "text-rejected-text-strong", value: STATUS_LABELS.Rejected },
 ];
 
 export default function ManagerPage() {
   const [page, setPage] = useState(1);
-  const [status, setStatus] = useState("");
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
-  const { data: stats, isLoading: statsLoading } = useGetStatsQuery();
-  const { data: leaves, isLoading: leavesLoading } = useGetLeavesQuery({
+  const [status, setStatus] = useState<StatusFilterValue>("All");
+  const [sortOrder, setSortOrder] = useState<SortOrder>("desc");
+  const { data: stats, isLoading: statsLoading, isError: statsError } = useGetStatsQuery();
+  const { data: leaves, isLoading: leavesLoading, isError: leavesError } = useGetLeavesQuery({
     page, limit: 10,
-    status: status || undefined,
+    status: status === "All" ? undefined : status,
     sortBy: "startDate",
     sortOrder,
   });
 
-  const handleStatus = (s: string) => { setStatus(s); setPage(1); };
+  const handleStatus = (s: StatusFilterValue) => { setStatus(s); setPage(1); };
 
   return (
     <>
@@ -46,6 +49,9 @@ export default function ManagerPage() {
           />
         ))}
       </StatsGrid>
+
+      {statsError && <ErrorMessage message={MESSAGES.errorStats} />}
+      {leavesError && <ErrorMessage message={MESSAGES.errorLeaves} />}
 
       <RequestsTable
         leaves={leaves}

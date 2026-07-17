@@ -1,12 +1,14 @@
 'use client'
 
 import { useState, useRef, useEffect } from "react";
-
-const options = ["All", "Pending", "Approved", "Rejected"];
+import { cn } from "@/features/shared/utils/cn";
+import { ChevronDown } from "lucide-react";
+import { STATUS_OPTIONS } from "@/features/shared/constants/messages";
+import type { StatusFilterValue } from "@/features/shared/types";
 
 interface Props {
-  value: string;
-  onChange: (status: string) => void;
+  value: StatusFilterValue;
+  onChange: (status: StatusFilterValue) => void;
 }
 
 export function StatusFilter({ value, onChange }: Props) {
@@ -28,18 +30,19 @@ export function StatusFilter({ value, onChange }: Props) {
         className="inline-flex items-center gap-1 text-xs text-on-surface hover:text-primary transition-colors"
       >
         Status
-        <svg className={`w-3 h-3 transition-transform ${open ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-        </svg>
+        <ChevronDown className={cn("w-3 h-3 transition-transform", open && "rotate-180")} />
       </button>
 
       {open && (
         <div className="absolute z-50 top-full left-0 mt-1 bg-surface border border-outline-variant rounded-lg shadow-lg py-1 min-w-[120px]">
-          {options.map((opt) => (
+          {STATUS_OPTIONS.map((opt) => (
             <button
               key={opt}
-              onClick={() => { onChange(opt === "All" ? "" : opt); setOpen(false); }}
-              className={`w-full text-left px-3 py-1.5 text-xs hover:bg-surface-container-high transition-colors ${(opt === "All" ? !value : value === opt) ? "text-primary font-medium" : "text-on-surface"}`}
+              onClick={() => { onChange(opt); setOpen(false); }}
+              className={cn(
+                "w-full text-left px-3 py-1.5 text-xs hover:bg-surface-container-high transition-colors",
+                (opt === "All" ? value === "All" : value === opt) ? "text-primary font-medium" : "text-on-surface"
+              )}
             >
               {opt}
             </button>

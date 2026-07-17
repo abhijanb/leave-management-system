@@ -14,7 +14,7 @@ export function useAuthGuard() {
 
   useEffect(() => {
     if (isError) dispatch(clearUser());
-  }, [isError]);
+  }, [isError, dispatch]);
 
   useEffect(() => {
     if (!auth.email) {

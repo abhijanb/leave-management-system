@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import type { UserRole } from "../shared/types";
 
 interface AuthState {
   email: string | null;
-  role: string | null;
+  role: UserRole | null;
 }
 
 function load(): AuthState {
@@ -26,7 +27,7 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setUser(state, action: PayloadAction<{ email: string; role: string }>) {
+    setUser(state, action: PayloadAction<{ email: string; role: UserRole }>) {
       state.email = action.payload.email;
       state.role = action.payload.role;
       save({ email: state.email, role: state.role });

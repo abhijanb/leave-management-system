@@ -14,6 +14,21 @@
   --color-on-secondary: #1a2b6a;
   --color-error: #ffb4ab;
   --color-on-error: #690005;
+
+  --color-pending-bg: #422006;
+  --color-pending-text: #fcd34d;
+  --color-approved-bg: #052e16;
+  --color-approved-text: #6ee7b7;
+  --color-rejected-bg: #4c0519;
+  --color-rejected-text: #fda4af;
+
+  --color-pending-text-strong: #fbbf24;
+  --color-approved-text-strong: #34d399;
+  --color-rejected-text-strong: #fb7185;
+  --color-rejected-bg-strong: #e11d48;
+  --color-error-bg: #4c0519;
+  --color-error-border: #881337;
+  --color-error-text: #fda4af;
 }
 
 .light {
@@ -30,6 +45,21 @@
   --color-on-secondary: #ffffff;
   --color-error: #ef4444;
   --color-on-error: #ffffff;
+
+  --color-pending-bg: #fef3c7;
+  --color-pending-text: #92400e;
+  --color-approved-bg: #d1fae5;
+  --color-approved-text: #065f46;
+  --color-rejected-bg: #ffe4e6;
+  --color-rejected-text: #9f1239;
+
+  --color-pending-text-strong: #d97706;
+  --color-approved-text-strong: #059669;
+  --color-rejected-text-strong: #e11d48;
+  --color-rejected-bg-strong: #e11d48;
+  --color-error-bg: #fef2f2;
+  --color-error-border: #fecdd3;
+  --color-error-text: #9f1239;
 }
 
 @theme inline {
@@ -46,6 +76,21 @@
   --color-on-secondary: var(--color-on-secondary);
   --color-error: var(--color-error);
   --color-on-error: var(--color-on-error);
+
+  --color-pending-bg: var(--color-pending-bg);
+  --color-pending-text: var(--color-pending-text);
+  --color-approved-bg: var(--color-approved-bg);
+  --color-approved-text: var(--color-approved-text);
+  --color-rejected-bg: var(--color-rejected-bg);
+  --color-rejected-text: var(--color-rejected-text);
+
+  --color-pending-text-strong: var(--color-pending-text-strong);
+  --color-approved-text-strong: var(--color-approved-text-strong);
+  --color-rejected-text-strong: var(--color-rejected-text-strong);
+  --color-rejected-bg-strong: var(--color-rejected-bg-strong);
+  --color-error-bg: var(--color-error-bg);
+  --color-error-border: var(--color-error-border);
+  --color-error-text: var(--color-error-text);
 
   --font-sans: Geist, sans-serif;
   --font-mono: JetBrains Mono, monospace;

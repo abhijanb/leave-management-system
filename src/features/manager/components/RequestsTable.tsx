@@ -2,25 +2,24 @@
 
 import type { LeavesResponse } from "../managerApi";
 import { useApproveLeaveMutation, useRejectLeaveMutation } from "../managerApi";
-import type { LeaveResponse } from "../managerApi";
 import { Pagination } from "@/features/shared/ui/Pagination";
 import { Tooltip } from "@/features/shared/ui/Tooltip";
+import { StatusBadge } from "@/features/shared/ui/StatusBadge";
 import { StatusFilter } from "./StatusFilter";
-
-const statusStyles: Record<string, string> = {
-  Pending: "bg-amber-100 text-amber-700",
-  Approved: "bg-emerald-100 text-emerald-700",
-  Rejected: "bg-rose-100 text-rose-700",
-};
+import { DataState } from "@/features/shared/ui/DataState";
+import { cn } from "@/features/shared/utils/cn";
+import { ChevronUp } from "lucide-react";
+import { MESSAGES, STATUS_LABELS } from "@/features/shared/constants/messages";
+import type { StatusFilterValue, SortOrder } from "@/features/shared/types";
 
 interface Props {
   leaves: LeavesResponse | undefined;
   loading: boolean;
   page: number;
   setPage: (page: number) => void;
-  status: string;
-  setStatus: (status: string) => void;
-  sortOrder: "asc" | "desc";
+  status: StatusFilterValue;
+  setStatus: (status: StatusFilterValue) => void;
+  sortOrder: SortOrder;
   onSortToggle: () => void;
 }
 
@@ -43,9 +42,7 @@ export function RequestsTable({ leaves, loading, page, setPage, status, setStatu
               <th className="p-4 font-medium">
                 <button onClick={onSortToggle} className="inline-flex items-center gap-1 text-on-surface-variant hover:text-primary transition-colors">
                   Dates
-                  <svg className={`w-3 h-3 transition-transform ${sortOrder === "asc" ? "" : "rotate-180"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
-                  </svg>
+                  <ChevronUp className={cn("w-3 h-3 transition-transform", sortOrder === "asc" ? "" : "rotate-180")} />
                 </button>
               </th>
               <th className="p-4 font-medium">Reason</th>
@@ -56,16 +53,8 @@ export function RequestsTable({ leaves, loading, page, setPage, status, setStatu
             </tr>
           </thead>
           <tbody className="divide-y divide-outline-variant">
-            {loading ? (
-              <tr>
-                <td colSpan={6} className="p-8 text-center text-sm text-on-surface-variant">Loading...</td>
-              </tr>
-            ) : rows.length === 0 ? (
-              <tr>
-                <td colSpan={6} className="p-8 text-center text-sm text-on-surface-variant">No leave requests yet.</td>
-              </tr>
-            ) : (
-              rows.map((row) => (
+            <DataState loading={loading} empty={rows.length === 0} colSpan={6}>
+              {rows.map((row) => (
                 <tr key={row.id} className="hover:bg-surface-container-low">
                   <td className="p-4">
                     <div className="font-medium text-on-surface">{row.user.name}</div>
@@ -79,20 +68,20 @@ export function RequestsTable({ leaves, loading, page, setPage, status, setStatu
                     </Tooltip>
                   </td>
                   <td className="p-4">
-                    <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${statusStyles[row.status] ?? ""}`}>{row.status}</span>
+                    <StatusBadge status={row.status} />
                   </td>
                   <td className="p-4 text-right">
-                    {row.status === "Pending" ? (
+                    {row.status === STATUS_LABELS.Pending ? (
                       <div className="flex gap-1 justify-end">
                         <button
                           onClick={() => approve(row.id)}
-                          className="px-2 py-1 text-xs font-medium bg-emerald-600 text-white rounded hover:bg-emerald-700"
+                          className="px-2 py-1 text-xs font-medium bg-approved-bg text-approved-text rounded hover:opacity-80"
                         >
                           Approve
                         </button>
                         <button
                           onClick={() => reject(row.id)}
-                          className="px-2 py-1 text-xs font-medium bg-rose-600 text-white rounded hover:bg-rose-700"
+                          className="px-2 py-1 text-xs font-medium bg-rejected-bg-strong text-on-error rounded hover:opacity-80"
                         >
                           Reject
                         </button>
@@ -102,8 +91,8 @@ export function RequestsTable({ leaves, loading, page, setPage, status, setStatu
                     )}
                   </td>
                 </tr>
-              ))
-            )}
+              ))}
+            </DataState>
           </tbody>
         </table>
       </div>

@@ -1,9 +1,14 @@
 'use client'
 
-import { Calendar, ClipboardList, LayoutDashboard, LogOut } from 'lucide-react'
+import { Calendar, ClipboardList, History, LayoutDashboard, LogOut } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { setCollapsed } from './sidebarSlice'
 import { useAppDispatch, useAppSelector } from '@/features/shared/app/hooks'
+import { clearUser } from '@/features/auth/authSlice'
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
+import { cn } from '@/features/shared/utils/cn'
+import type { UserRole } from '@/features/shared/types'
 
 interface NavItem {
   label: string
@@ -11,27 +16,38 @@ interface NavItem {
   icon: LucideIcon
 }
 
-const defaultItems: NavItem[] = [
+const managerItems: NavItem[] = [
   { label: "Dashboard", href: "/manager", icon: LayoutDashboard },
   { label: "My Requests", href: "#", icon: ClipboardList },
   { label: "Calendar", href: "#", icon: Calendar },
 ]
 
+const employeeItems: NavItem[] = [
+  { label: "Dashboard", href: "/", icon: LayoutDashboard },
+  { label: "Leave History", href: "/leave-history", icon: History },
+]
+
 interface SidebarProps {
-  items?: NavItem[]
+  role?: UserRole | null
 }
 
-export function Sidebar({ items = defaultItems }: SidebarProps) {
+export function Sidebar({ role }: SidebarProps) {
   const dispatch = useAppDispatch()
   const collapsed = useAppSelector((state) => state.sidebar.collapsed)
+  const router = useRouter()
+
+  const items = role === "manager" ? managerItems : employeeItems
+
+  const handleSignOut = () => {
+    dispatch(clearUser())
+    router.push("/login")
+  }
 
   return (
     <aside
       onMouseEnter={() => dispatch(setCollapsed(false))}
       onMouseLeave={() => dispatch(setCollapsed(true))}
-      className={`border-r border-outline-variant bg-surface flex flex-col transition-all duration-200 ${
-        collapsed ? 'w-16' : 'w-60'
-      }`}
+      className={cn("border-r border-outline-variant bg-surface flex flex-col transition-all duration-200", collapsed ? 'w-16' : 'w-60')}
     >
       <div className="h-16 flex items-center gap-3 px-4 border-b border-outline-variant">
         <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-on-primary text-sm font-bold shrink-0">
@@ -42,7 +58,7 @@ export function Sidebar({ items = defaultItems }: SidebarProps) {
 
       <nav className="flex-1 p-3 space-y-1">
         {items.map((item) => (
-          <a
+          <Link
             key={item.label}
             href={item.href}
             className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
@@ -50,19 +66,19 @@ export function Sidebar({ items = defaultItems }: SidebarProps) {
           >
             <item.icon className="w-5 h-5 shrink-0" />
             {!collapsed && <span className="truncate">{item.label}</span>}
-          </a>
+          </Link>
         ))}
       </nav>
 
       <div className="p-3 border-t border-outline-variant">
-        <a
-          href="/login"
-          className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+        <button
+          onClick={handleSignOut}
+          className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
           title={collapsed ? 'Sign Out' : undefined}
         >
           <LogOut className="w-5 h-5 shrink-0" />
           {!collapsed && <span className="truncate">Sign Out</span>}
-        </a>
+        </button>
       </div>
     </aside>
   )

@@ -3,15 +3,17 @@
 import { useAuthGuard } from "@/features/auth/hooks/useAuthGuard";
 import { Sidebar } from "@/features/manager/components/ui/Sidebar/Sidebar"
 import { ThemeToggle } from "@/features/ThemeToggle/ThemeToggle"
+import { useAppSelector } from "@/features/shared/app/hooks";
 
 export default function PrivateLayout({ children }: { children: React.ReactNode }) {
   const auth = useAuthGuard();
+  const role = useAppSelector((s) => s.auth.role);
 
   if (!auth.email) return null;
 
   return (
     <div className="flex flex-1 bg-background">
-      <Sidebar />
+      <Sidebar role={role} />
       <main className="flex-1 flex flex-col min-w-0">
         <header className="h-16 flex items-center justify-between px-6 border-b border-outline-variant bg-surface">
           <h2 className="text-base font-semibold text-on-surface">Dashboard</h2>

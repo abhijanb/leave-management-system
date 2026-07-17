@@ -1,3 +1,5 @@
+import { cn } from "@/features/shared/utils/cn";
+
 interface Props {
   page: number;
   totalPages: number;
@@ -27,7 +29,7 @@ export function Pagination({ page, totalPages, total, pageSize, onPageChange }: 
           <button
             key={p}
             onClick={() => onPageChange(p)}
-            className={`px-2 py-1 rounded text-xs font-medium ${p === page ? "bg-primary text-on-primary" : "hover:bg-surface-container-high"}`}
+            className={cn("px-2 py-1 rounded text-xs font-medium", p === page ? "bg-primary text-on-primary" : "hover:bg-surface-container-high")}
           >
             {p}
           </button>

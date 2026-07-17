@@ -6,8 +6,9 @@ import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/features/shared/app/hooks";
 import { toast } from "sonner";
 import { setUser } from "../authSlice";
+import type { UserRole } from "@/features/shared/types";
 
-const ROUTES: Record<string, string> = {
+const ROUTES: Record<UserRole, string> = {
   manager: "/manager",
   employee: "/",
 };
@@ -29,7 +30,7 @@ export function useLogin() {
       const res = await login(data).unwrap();
       dispatch(setUser({ email: data.email, role: res.role }));
       toast.success("Signed in successfully");
-      router.push(ROUTES[res.role] ?? "/");
+      router.push(ROUTES[res.role]);
     } catch {
       toast.error("Invalid email or password");
     }

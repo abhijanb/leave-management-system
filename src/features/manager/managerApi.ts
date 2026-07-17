@@ -1,20 +1,21 @@
 import { baseApi } from "../shared/app/baseApi";
+import type { UserRole, LeaveStatus, LeaveType, SortBy, SortOrder } from "../shared/types";
 
 export interface LeaveUser {
   id: number;
   name: string;
   email: string;
-  role: string;
+  role: UserRole;
 }
 
 export interface LeaveResponse {
   id: number;
   userId: number;
-  type: string;
+  type: LeaveType;
   startDate: string;
   endDate: string;
   reason: string;
-  status: string;
+  status: LeaveStatus;
   createdAt: string;
   updatedAt: string;
   user: LeaveUser;
@@ -33,15 +34,14 @@ export interface LeavesResponse {
   page: number;
   limit: number;
   totalPages: number;
-  
 }
 
 interface LeavesQuery {
   page?: number;
   limit?: number;
-  status?: string;
-  sortBy?: string;
-  sortOrder?: "asc" | "desc";
+  status?: LeaveStatus;
+  sortBy?: SortBy;
+  sortOrder?: SortOrder;
 }
 
 export const managerApi = baseApi.injectEndpoints({

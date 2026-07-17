@@ -24,7 +24,7 @@ export function ThemeToggle() {
   return (
     <button
       onClick={handleToggle}
-      className="fixed top-4 right-4 w-9 h-9 flex items-center justify-center rounded-md border border-outline-variant bg-surface text-on-surface hover:brightness-110 transition-all z-50"
+      className="w-9 h-9 flex items-center justify-center rounded-md border border-outline-variant bg-surface text-on-surface hover:brightness-110 transition-all"
       aria-label="Toggle theme"
     >
       {mounted ? (theme === 'dark' ? <Moon size={16} /> : <Sun size={16} />) : <Moon size={16} />}

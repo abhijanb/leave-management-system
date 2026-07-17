@@ -6,11 +6,9 @@ import { Toaster } from "sonner";
 
 export default function AppProvider({ children }: { children: React.ReactNode }) {
     return (
-        <>
+        <Provider store={store}>
             <Toaster position="top-right" richColors />
-            <Provider store={store}>
-                {children}
-            </Provider>
-        </>
+            {children}
+        </Provider>
     )
 }

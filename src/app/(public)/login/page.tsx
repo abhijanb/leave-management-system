@@ -17,7 +17,9 @@ export default function LoginPage() {
 
   return (
     <div className="flex flex-1 items-center justify-center bg-background relative">
-      <ThemeToggle />
+      <div className="absolute top-4 right-4">
+        <ThemeToggle />
+      </div>
       <div className="w-full max-w-sm px-4">
         <div className="bg-surface border border-outline-variant rounded-xl p-8">
           <div className="mb-8 text-center">

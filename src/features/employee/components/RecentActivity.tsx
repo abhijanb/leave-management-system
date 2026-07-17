@@ -2,9 +2,11 @@
 
 import { useGetLeavesQuery } from "@/features/employee/employeeApi";
 import { ActivityItem } from "@/features/shared/ui/ActivityItem";
+import { ErrorMessage } from "@/features/shared/ui/ErrorMessage";
+import { DataState } from "@/features/shared/ui/DataState";
 
 export function RecentActivity() {
-  const { data: leaves, isLoading } = useGetLeavesQuery({ page: 1, limit: 5, sortBy: "startDate", sortOrder: "desc" });
+  const { data: leaves, isLoading, isError } = useGetLeavesQuery({ page: 1, limit: 5, sortBy: "startDate", sortOrder: "desc" });
 
   const leavesData = leaves?.data ?? [];
 
@@ -14,12 +16,12 @@ export function RecentActivity() {
         <h2 className="text-sm font-semibold text-on-surface">Recent Activity</h2>
       </div>
       <div className="divide-y divide-outline-variant">
-        {isLoading ? (
-          <div className="p-8 text-center text-sm text-on-surface-variant">Loading...</div>
-        ) : leavesData.length === 0 ? (
-          <div className="p-8 text-center text-sm text-on-surface-variant">No leave requests yet.</div>
+        {isError ? (
+          <ErrorMessage message="Failed to load recent activity." />
         ) : (
-          leavesData.map((row) => <ActivityItem key={row.id} leave={row} />)
+          <DataState loading={isLoading} empty={leavesData.length === 0}>
+            {leavesData.map((row) => <ActivityItem key={row.id} leave={row} />)}
+          </DataState>
         )}
       </div>
     </div>
