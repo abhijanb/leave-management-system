@@ -21,6 +21,20 @@ interface LeavesQuery {
   type?: LeaveType;
 }
 
+export interface CreateLeaveRequest {
+  type: LeaveType;
+  startDate: string;
+  endDate: string;
+  reason: string;
+}
+
+export interface UpdateLeaveRequest {
+  type: LeaveType;
+  startDate: string;
+  endDate: string;
+  reason: string;
+}
+
 export const employeeApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getStats: builder.query<StatsResponse, void>({
@@ -41,6 +55,14 @@ export const employeeApi = baseApi.injectEndpoints({
       }),
       providesTags: ["Leaves"],
     }),
+    createLeave: builder.mutation<LeaveResponse, CreateLeaveRequest>({
+      query: (body) => ({ url: "/leaves", method: "POST", body }),
+      invalidatesTags: ["Leaves", "Stats"],
+    }),
+    updateLeave: builder.mutation<LeaveResponse, { id: number; body: UpdateLeaveRequest }>({
+      query: ({ id, body }) => ({ url: `/leaves/${id}`, method: "PUT", body }),
+      invalidatesTags: ["Leaves", "Stats"],
+    }),
     deleteLeave: builder.mutation<void, number>({
       query: (id) => ({ url: `/leaves/${id}`, method: "DELETE" }),
       invalidatesTags: ["Leaves", "Stats"],
@@ -48,4 +70,4 @@ export const employeeApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useGetStatsQuery, useGetLeavesQuery, useDeleteLeaveMutation } = employeeApi;
+export const { useGetStatsQuery, useGetLeavesQuery, useCreateLeaveMutation, useUpdateLeaveMutation, useDeleteLeaveMutation } = employeeApi;

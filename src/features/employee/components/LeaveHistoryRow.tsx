@@ -11,6 +11,7 @@ import type { LucideIcon } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { STATUS_LABELS } from "@/features/shared/constants/messages";
 import type { LeaveType } from "@/features/shared/types";
+import { EditLeaveModal } from "./EditLeaveModal";
 
 const typeIcons: Record<LeaveType, LucideIcon> = {
   "Paid Leave": Plane,
@@ -26,6 +27,7 @@ interface Props {
 export function LeaveHistoryRow({ row }: Props) {
   const [deleteLeave] = useDeleteLeaveMutation();
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [editing, setEditing] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout>>(null);
 
   useEffect(() => {
@@ -46,6 +48,7 @@ export function LeaveHistoryRow({ row }: Props) {
   const Icon = typeIcons[row.type];
 
   return (
+    <>
     <tr className="hover:bg-surface-container-low/50 transition-colors">
       <td className="p-4">
         <div className="flex items-center gap-2">
@@ -68,7 +71,7 @@ export function LeaveHistoryRow({ row }: Props) {
         {row.status === STATUS_LABELS.Pending ? (
           <div className="flex gap-1 justify-end">
             <button
-              onClick={() => console.log("Edit", row.id)}
+              onClick={() => setEditing(true)}
               className="p-1.5 text-primary hover:bg-primary/10 rounded-lg transition-colors"
               title="Edit"
             >
@@ -92,5 +95,7 @@ export function LeaveHistoryRow({ row }: Props) {
         )}
       </td>
     </tr>
+    {editing && <EditLeaveModal leave={row} onClose={() => setEditing(false)} />}
+    </>
   );
 }
