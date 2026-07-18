@@ -19,6 +19,15 @@ export const editLeaveSchema = z
   .refine((data) => new Date(data.endDate) >= new Date(data.startDate), {
     message: "End date must be on or after start date",
     path: ["endDate"],
+  })
+  .refine((data) => {
+    const start = new Date(data.startDate);
+    const end = new Date(data.endDate);
+    const diffDays = Math.round((end.getTime() - start.getTime()) / 86400000) + 1;
+    return diffDays <= 30;
+  }, {
+    message: "Leave request cannot exceed 30 days",
+    path: ["endDate"],
   });
 
 export type EditLeaveForm = z.infer<typeof editLeaveSchema>;
