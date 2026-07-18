@@ -18,6 +18,7 @@ import { memo } from "react";
 interface Props {
   leaves: LeavesResponse | undefined;
   loading: boolean;
+  fetching?: boolean;
   page: number;
   setPage: (page: number) => void;
   status: StatusFilterValue;
@@ -30,7 +31,7 @@ interface Props {
   onSortToggle: () => void;
 }
 
-function RequestsTable({ leaves, loading, page, setPage, status, setStatus, type, setType, employee, setEmployee, sortOrder, onSortToggle }: Props) {
+function RequestsTable({ leaves, loading, fetching, page, setPage, status, setStatus, type, setType, employee, setEmployee, sortOrder, onSortToggle }: Props) {
   const [approve] = useApproveLeaveMutation();
   const [reject] = useRejectLeaveMutation();
 
@@ -75,7 +76,7 @@ function RequestsTable({ leaves, loading, page, setPage, status, setStatus, type
               <th className="p-4 font-medium text-right">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-outline-variant">
+          <tbody className={cn("divide-y divide-outline-variant transition-opacity duration-200", fetching && rows.length > 0 && "opacity-50")}>
             <DataState loading={loading} empty={rows.length === 0} colSpan={6}>
               {rows.map((row) => (
                 <tr key={row.id} className="hover:bg-surface-container-low">

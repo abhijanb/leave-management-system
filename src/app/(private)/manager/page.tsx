@@ -24,7 +24,7 @@ export default function ManagerPage() {
   const [sortOrder, setSortOrder] = useState<SortOrder>("desc");
   const debouncedEmployee = useDebounce(employee, 300);
   const { data: stats, isLoading: statsLoading, isError: statsError } = useGetManagerStatsQuery();
-  const { data: leaves, isLoading: leavesLoading, isError: leavesError } = useGetManagerLeavesQuery({
+  const { data: leaves, isLoading: leavesLoading, isFetching: leavesFetching, isError: leavesError } = useGetManagerLeavesQuery({
     page, limit: 10,
     status: status === "All" ? undefined : status,
     type: type === "All" ? undefined : type,
@@ -64,6 +64,7 @@ export default function ManagerPage() {
       <RequestsTable
         leaves={leaves}
         loading={leavesLoading}
+        fetching={leavesFetching}
         page={page}
         setPage={setPage}
         status={status}
