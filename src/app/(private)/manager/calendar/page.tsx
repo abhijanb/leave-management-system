@@ -3,6 +3,7 @@
 import { useMemo } from "react";
 import { useGetManagerLeavesQuery } from "@/features/manager/managerApi";
 import Calendar, { type CalendarEvent } from "@/features/shared/ui/Calendar";
+import CalendarSkeleton from "@/features/shared/ui/CalendarSkeleton";
 import ErrorMessage from "@/features/shared/ui/ErrorMessage";
 import { MESSAGES } from "@/features/shared/constants/messages";
 import { parseISO } from "date-fns";
@@ -30,7 +31,7 @@ export default function ManagerCalendarPage() {
       {isError && <ErrorMessage message={MESSAGES.errorLeaves} />}
 
       {isLoading ? (
-        <div className="p-8 text-center text-sm text-on-surface-variant">{MESSAGES.loading}</div>
+        <CalendarSkeleton />
       ) : (
         <Calendar events={events} />
       )}
