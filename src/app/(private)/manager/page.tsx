@@ -6,6 +6,7 @@ import RequestsTable from "@/features/manager/components/RequestsTable"
 import StatsCard, { StatsGrid } from "@/features/shared/ui/StatsCard";
 import ErrorMessage from "@/features/shared/ui/ErrorMessage";
 import { STATUS_LABELS, MESSAGES } from "@/features/shared/constants/messages";
+import { useDebounce } from "@/features/shared/hooks/useDebounce";
 import type { StatusFilterValue, TypeFilterValue, SortOrder } from "@/features/shared/types";
 
 const statConfig: { label: string; key: "total" | "pending" | "approved" | "rejected"; color: string; value: StatusFilterValue }[] = [
@@ -21,12 +22,13 @@ export default function ManagerPage() {
   const [type, setType] = useState<TypeFilterValue>("All");
   const [employee, setEmployee] = useState("");
   const [sortOrder, setSortOrder] = useState<SortOrder>("desc");
+  const debouncedEmployee = useDebounce(employee, 300);
   const { data: stats, isLoading: statsLoading, isError: statsError } = useGetStatsQuery();
   const { data: leaves, isLoading: leavesLoading, isError: leavesError } = useGetLeavesQuery({
     page, limit: 10,
     status: status === "All" ? undefined : status,
     type: type === "All" ? undefined : type,
-    employee: employee || undefined,
+    employee: debouncedEmployee || undefined,
     sortBy: "startDate",
     sortOrder,
   });
