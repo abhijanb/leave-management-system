@@ -33,7 +33,7 @@ export default function LoginPage() {
           <LoginForm />
           
           <p className="mt-8 pt-6 border-t border-outline-variant text-center text-sm text-on-surface-variant">
-            New to Leave? <a className="text-primary hover:underline" href="#">Contact HR</a>
+            New to Leave? <span className="text-primary">Contact HR</span>
           </p>
         </div>
       </div>
