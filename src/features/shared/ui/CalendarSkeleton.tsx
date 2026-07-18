@@ -12,7 +12,7 @@ function CalendarSkeleton() {
       </div>
       <div className="grid grid-cols-7">
         {Array.from({ length: 35 }).map((_, i) => (
-          <div key={i} className="min-h-24 p-1 border-r border-b border-outline-variant last:border-r-0">
+          <div key={i} className="min-h-16 md:min-h-24 p-1 border-r border-b border-outline-variant last:border-r-0">
             <div className="w-6 h-4 rounded bg-surface-container-high animate-pulse mb-2" />
             <div className="space-y-1">
               <div className="h-3 rounded bg-surface-container-high animate-pulse" />

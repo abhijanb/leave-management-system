@@ -13,7 +13,7 @@ export default function ApplyLeavePage() {
         <p className="text-sm text-on-surface-variant mt-1">Fill in the details below to submit a new leave request.</p>
       </div>
 
-      <div className="bg-surface border border-outline-variant rounded-xl p-6">
+      <div className="bg-surface border border-outline-variant rounded-xl p-4 md:p-6">
         <LeaveForm
           errors={errors}
           isLoading={isLoading}

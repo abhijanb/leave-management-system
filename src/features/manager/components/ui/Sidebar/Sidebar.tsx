@@ -1,9 +1,9 @@
 'use client'
 
 import { memo } from 'react'
-import { Calendar, FilePlus, History, LayoutDashboard, LogOut, Menu, Users } from 'lucide-react'
+import { Calendar, FilePlus, History, LayoutDashboard, LogOut, Menu, Users, X } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
-import { toggleCollapsed } from './sidebarSlice'
+import { toggleCollapsed, setCollapsed } from './sidebarSlice'
 import { useAppDispatch, useAppSelector } from '@/features/shared/app/hooks'
 import { clearUser } from '@/features/auth/authSlice'
 import { useRouter } from 'next/navigation'
@@ -49,7 +49,11 @@ export const Sidebar = memo(function Sidebar({ role }: SidebarProps) {
 
   return (
     <aside
-      className={cn("border-r border-outline-variant bg-surface flex flex-col transition-all duration-200", collapsed ? 'w-16' : 'w-60')}
+      className={cn(
+        "border-r border-outline-variant bg-surface flex flex-col transition-all duration-200 z-40",
+        "fixed inset-y-0 left-0 md:relative md:inset-y-auto",
+        collapsed ? '-translate-x-full md:translate-x-0 md:w-16' : 'translate-x-0 md:w-60',
+      )}
     >
       <div className="h-16 flex items-center gap-3 px-4 border-b border-outline-variant">
         <button
@@ -57,7 +61,14 @@ export const Sidebar = memo(function Sidebar({ role }: SidebarProps) {
           className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-surface-container-high transition-colors shrink-0"
           title={collapsed ? 'Open menu' : 'Close menu'}
         >
-          <Menu className="w-5 h-5 text-on-surface-variant" />
+          {collapsed ? (
+            <Menu className="w-5 h-5 text-on-surface-variant" />
+          ) : (
+            <>
+              <X className="w-5 h-5 text-on-surface-variant md:hidden" />
+              <Menu className="w-5 h-5 text-on-surface-variant hidden md:block" />
+            </>
+          )}
         </button>
         {!collapsed && <h1 className="text-lg font-bold text-primary truncate">Leave</h1>}
       </div>
