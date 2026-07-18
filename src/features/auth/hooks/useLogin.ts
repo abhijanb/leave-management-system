@@ -30,7 +30,7 @@ export function useLogin() {
     async (data: LoginForm) => {
       try {
         const res = await login(data).unwrap();
-        dispatch(setUser({ email: data.email, role: res.role }));
+        dispatch(setUser({ email: data.email, role: res.role, name: res.name }));
         toast.success("Signed in successfully");
         router.push(ROUTES[res.role]);
       } catch {

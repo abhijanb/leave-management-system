@@ -1,7 +1,7 @@
 'use client'
 
 import { memo } from 'react'
-import { Calendar, ClipboardList, FilePlus, History, LayoutDashboard, LogOut } from 'lucide-react'
+import { Calendar, FilePlus, History, LayoutDashboard, LogOut } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { setCollapsed } from './sidebarSlice'
 import { useAppDispatch, useAppSelector } from '@/features/shared/app/hooks'
@@ -35,9 +35,11 @@ interface SidebarProps {
 export const Sidebar = memo(function Sidebar({ role }: SidebarProps) {
   const dispatch = useAppDispatch()
   const collapsed = useAppSelector((state) => state.sidebar.collapsed)
+  const { email, name } = useAppSelector((state) => state.auth)
   const router = useRouter()
 
   const items = role === "manager" ? managerItems : employeeItems
+  const initials = (name || email || "?")[0].toUpperCase()
 
   const handleSignOut = () => {
     dispatch(clearUser())
@@ -57,6 +59,14 @@ export const Sidebar = memo(function Sidebar({ role }: SidebarProps) {
         {!collapsed && <h1 className="text-lg font-bold text-primary truncate">Leave</h1>}
       </div>
 
+      {/* User info */}
+      {!collapsed && (
+        <div className="px-4 py-3 border-b border-outline-variant">
+          <p className="text-sm font-medium text-on-surface truncate">{name || "User"}</p>
+          <p className="text-xs text-on-surface-variant truncate">{email}</p>
+        </div>
+      )}
+
       <nav className="flex-1 p-3 space-y-1">
         {items.map((item) => (
           <Link
@@ -71,7 +81,17 @@ export const Sidebar = memo(function Sidebar({ role }: SidebarProps) {
         ))}
       </nav>
 
-      <div className="p-3 border-t border-outline-variant">
+      <div className="p-3 border-t border-outline-variant space-y-1">
+        {collapsed && (
+          <div
+            className="flex items-center justify-center w-full px-3 py-2"
+            title={name || email || undefined}
+          >
+            <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary text-sm font-bold shrink-0">
+              {initials}
+            </div>
+          </div>
+        )}
         <button
           onClick={handleSignOut}
           className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"

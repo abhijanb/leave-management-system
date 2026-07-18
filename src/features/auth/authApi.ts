@@ -4,6 +4,7 @@ import type { UserRole } from "../shared/types";
 interface LoginResponse {
   success: boolean;
   role: UserRole;
+  name: string;
 }
 
 interface LoginRequest {
@@ -15,6 +16,7 @@ interface LoginRequest {
 interface MeResponse {
   email: string;
   role: UserRole;
+  name: string;
 }
 
 export const authApi = baseApi.injectEndpoints({
