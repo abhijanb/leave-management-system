@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { useLoginMutation } from "../authApi";
 import { LoginForm, schema } from "../authSchema";
@@ -25,16 +26,19 @@ export function useLogin() {
     resolver: zodResolver(schema),
   });
 
-  const onSubmit = async (data: LoginForm) => {
-    try {
-      const res = await login(data).unwrap();
-      dispatch(setUser({ email: data.email, role: res.role }));
-      toast.success("Signed in successfully");
-      router.push(ROUTES[res.role]);
-    } catch {
-      toast.error("Invalid email or password");
-    }
-  };
+  const onSubmit = useCallback(
+    async (data: LoginForm) => {
+      try {
+        const res = await login(data).unwrap();
+        dispatch(setUser({ email: data.email, role: res.role }));
+        toast.success("Signed in successfully");
+        router.push(ROUTES[res.role]);
+      } catch {
+        toast.error("Invalid email or password");
+      }
+    },
+    [login, dispatch, router],
+  );
 
   return {
     register,

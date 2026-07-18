@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -17,16 +18,19 @@ export function useApplyLeave() {
     resolver: zodResolver(leaveSchema),
   });
 
-  const onSubmit = async (data: LeaveForm) => {
-    try {
-      await createLeave(data).unwrap();
-      toast.success("Leave request submitted");
-      reset();
-      router.push("/leave-history");
-    } catch {
-      toast.error("Failed to submit leave request");
-    }
-  };
+  const onSubmit = useCallback(
+    async (data: LeaveForm) => {
+      try {
+        await createLeave(data).unwrap();
+        toast.success("Leave request submitted");
+        reset();
+        router.push("/leave-history");
+      } catch {
+        toast.error("Failed to submit leave request");
+      }
+    },
+    [createLeave, reset, router],
+  );
 
   return { register, handleSubmit, errors, isLoading, onSubmit };
 }

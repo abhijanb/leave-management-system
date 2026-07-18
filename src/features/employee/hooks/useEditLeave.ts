@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
@@ -21,15 +22,18 @@ export function useEditLeave(leave: LeaveResponse, onClose: () => void) {
     },
   });
 
-  const onSubmit = async (data: EditLeaveForm) => {
-    try {
-      await updateLeave({ id: leave.id, body: data }).unwrap();
-      toast.success("Leave request updated");
-      onClose();
-    } catch {
-      toast.error("Failed to update leave request");
-    }
-  };
+  const onSubmit = useCallback(
+    async (data: EditLeaveForm) => {
+      try {
+        await updateLeave({ id: leave.id, body: data }).unwrap();
+        toast.success("Leave request updated");
+        onClose();
+      } catch {
+        toast.error("Failed to update leave request");
+      }
+    },
+    [updateLeave, leave.id, onClose],
+  );
 
   return { register, handleSubmit, errors, isLoading, onSubmit };
 }
