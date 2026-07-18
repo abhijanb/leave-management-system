@@ -30,6 +30,8 @@
   --color-error-bg: #4c0519;
   --color-error-border: #881337;
   --color-error-text: #fda4af;
+  --color-skeleton: #1e1e2e;
+  --color-skeleton-bg: #1a1a2a;
 }
 
 .light {
@@ -61,6 +63,7 @@
   --color-error-bg: #fef2f2;
   --color-error-border: #fecdd3;
   --color-error-text: #9f1239;
+  --color-skeleton-bg: #e5e7eb;
 }
 
 @theme inline {
@@ -92,6 +95,7 @@
   --color-error-bg: var(--color-error-bg);
   --color-error-border: var(--color-error-border);
   --color-error-text: var(--color-error-text);
+  --color-skeleton-bg: var(--color-skeleton-bg);
 
   --font-sans: Geist, sans-serif;
   --font-mono: JetBrains Mono, monospace;
