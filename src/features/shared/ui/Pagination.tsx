@@ -1,5 +1,5 @@
 import { cn } from "@/features/shared/utils/cn";
-import { memo } from "react";
+import { memo, useMemo } from "react";
 
 interface Props {
   page: number;
@@ -32,7 +32,7 @@ function Pagination({ page, totalPages, total, pageSize, onPageChange }: Props) 
 
   const from = (page - 1) * pageSize + 1;
   const to = Math.min(page * pageSize, total);
-  const pages = getPageNumbers(page, totalPages);
+  const pages = useMemo(() => getPageNumbers(page, totalPages), [page, totalPages]);
 
   return (
     <div className="p-4 border-t border-outline-variant flex items-center justify-between text-xs text-on-surface-variant">
