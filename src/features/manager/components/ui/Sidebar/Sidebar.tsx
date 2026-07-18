@@ -18,7 +18,7 @@ interface NavItem {
 
 const managerItems: NavItem[] = [
   { label: "Dashboard", href: "/manager", icon: LayoutDashboard },
-  { label: "Calendar", href: "#", icon: Calendar },
+  { label: "Calendar", href: "/manager/calendar", icon: Calendar },
 ]
 
 const employeeItems: NavItem[] = [
