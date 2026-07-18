@@ -2,6 +2,7 @@
 
 import { useState, memo } from "react";
 import { Search } from "lucide-react";
+import Link from "next/link";
 import { useGetEmployeesQuery } from "@/features/manager/managerApi";
 import { useDebounce } from "@/features/shared/hooks/useDebounce";
 import ErrorMessage from "@/features/shared/ui/ErrorMessage";
@@ -65,7 +66,11 @@ function EmployeeListPage() {
         ) : (
           <div className="divide-y divide-outline-variant">
             {employees.map((employee) => (
-              <div key={employee.id} className="flex items-center gap-4 px-4 py-3 hover:bg-surface-container-low transition-colors">
+              <Link
+                key={employee.id}
+                href={`/manager/employees/${employee.id}`}
+                className="flex items-center gap-4 px-4 py-3 hover:bg-surface-container-low transition-colors"
+              >
                 <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary text-sm font-bold shrink-0">
                   {employee.name[0].toUpperCase()}
                 </div>
@@ -76,7 +81,7 @@ function EmployeeListPage() {
                 <span className="text-xs font-medium capitalize bg-surface-container-high px-2 py-1 rounded text-on-surface-variant">
                   {employee.role}
                 </span>
-              </div>
+              </Link>
             ))}
           </div>
         )}

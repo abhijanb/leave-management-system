@@ -92,6 +92,10 @@ export const managerApi = baseApi.injectEndpoints({
       }),
       providesTags: ["Employees"],
     }),
+    getEmployee: builder.query<LeaveUser, number>({
+      query: (id) => `/users/${id}`,
+      providesTags: (_result, _error, id) => [{ type: "Employees", id }],
+    }),
     approveLeave: builder.mutation<LeaveResponse, number>({
       query: (id) => ({
         url: `/leaves/${id}/approve`,
@@ -109,4 +113,4 @@ export const managerApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useGetManagerStatsQuery, useGetManagerLeavesQuery, useGetEmployeesQuery, useApproveLeaveMutation, useRejectLeaveMutation } = managerApi;
+export const { useGetManagerStatsQuery, useGetManagerLeavesQuery, useGetEmployeesQuery, useGetEmployeeQuery, useApproveLeaveMutation, useRejectLeaveMutation } = managerApi;
