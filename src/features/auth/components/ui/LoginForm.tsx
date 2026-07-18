@@ -1,8 +1,9 @@
 'use client'
 
+import { memo } from "react";
 import { useLogin } from "../../hooks/useLogin";
 
-export function LoginForm() {
+export const LoginForm = memo(function LoginForm() {
     const { register, handleSubmit, errors, isLoading, onSubmit } = useLogin();
     return (
         <form className="flex flex-col gap-6" onSubmit={handleSubmit(onSubmit)}>
@@ -28,4 +29,4 @@ export function LoginForm() {
             </button>
         </form>
     )
-}
+})

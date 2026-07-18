@@ -1,5 +1,6 @@
 'use client'
 
+import { memo } from 'react'
 import { Calendar, ClipboardList, FilePlus, History, LayoutDashboard, LogOut } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { setCollapsed } from './sidebarSlice'
@@ -31,7 +32,7 @@ interface SidebarProps {
   role?: UserRole | null
 }
 
-export function Sidebar({ role }: SidebarProps) {
+export const Sidebar = memo(function Sidebar({ role }: SidebarProps) {
   const dispatch = useAppDispatch()
   const collapsed = useAppSelector((state) => state.sidebar.collapsed)
   const router = useRouter()
@@ -82,4 +83,4 @@ export function Sidebar({ role }: SidebarProps) {
       </div>
     </aside>
   )
-}
+})
