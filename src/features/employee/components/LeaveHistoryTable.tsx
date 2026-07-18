@@ -1,22 +1,25 @@
 'use client'
 
-import { useGetEmployeeLeavesQuery } from "@/features/employee/employeeApi";
+import { useGetEmployeeLeavesQuery, useDeleteLeaveMutation } from "@/features/employee/employeeApi";
 import Pagination from "@/features/shared/ui/Pagination";
 import TableHead from "./TableHead";
 import ErrorMessage from "@/features/shared/ui/ErrorMessage";
 import DataState from "@/features/shared/ui/DataState";
 import LeaveHistoryRow from "./LeaveHistoryRow";
-import { useState, memo } from "react";
+import { useState, memo, useCallback } from "react";
 import { cn } from "@/features/shared/utils/cn";
 import { ChevronUp } from "lucide-react";
 import { STATUS_OPTIONS, TYPE_OPTIONS, MESSAGES } from "@/features/shared/constants/messages";
 import type { SortOrder, StatusFilterValue, TypeFilterValue } from "@/features/shared/types";
+import { toast } from "sonner";
 
 function LeaveHistoryTable() {
   const [page, setPage] = useState(1);
   const [status, setStatus] = useState<StatusFilterValue>("All");
   const [type, setType] = useState<TypeFilterValue>("All");
   const [sortOrder, setSortOrder] = useState<SortOrder>("desc");
+  const [deleting, setDeleting] = useState<Record<number, true>>({});
+  const [deleteLeave] = useDeleteLeaveMutation();
 
   const { data: leaves, isLoading, isError } = useGetEmployeeLeavesQuery({
     page,
@@ -27,9 +30,23 @@ function LeaveHistoryTable() {
     ...(type !== "All" && { type }),
   });
 
-  const rows = leaves?.data ?? [];
-  const total = leaves?.total ?? 0;
-  const totalPages = leaves?.totalPages ?? 1;
+  const rows = (leaves?.data ?? []).filter((r) => !deleting[r.id]);
+  const total = (leaves?.total ?? 0) - Object.keys(deleting).length;
+  const totalPages = Math.max(1, Math.ceil(total / 10));
+
+  const handleDelete = useCallback(async (id: number) => {
+    setDeleting((prev) => ({ ...prev, [id]: true }));
+    try {
+      await deleteLeave(id).unwrap();
+    } catch {
+      setDeleting((prev) => {
+        const next = { ...prev };
+        delete next[id];
+        return next;
+      });
+      toast.error("Failed to delete leave request");
+    }
+  }, [deleteLeave]);
 
   return (
     <div className="bg-surface border border-outline-variant rounded-xl overflow-hidden">
@@ -74,7 +91,7 @@ function LeaveHistoryTable() {
           <TableHead />
           <tbody className="divide-y divide-outline-variant">
             <DataState loading={isLoading} empty={rows.length === 0} colSpan={7}>
-              {rows.map((row) => <LeaveHistoryRow key={row.id} row={row} />)}
+              {rows.map((row) => <LeaveHistoryRow key={row.id} row={row} onDelete={handleDelete} />)}
             </DataState>
           </tbody>
         </table>

@@ -1,7 +1,6 @@
 'use client'
 
 import type { LeaveResponse } from "@/features/manager/managerApi";
-import { useDeleteLeaveMutation } from "@/features/employee/employeeApi";
 import Tooltip from "@/features/shared/ui/Tooltip";
 import StatusBadge from "@/features/shared/ui/StatusBadge";
 import { daysBetween, formatDate } from "@/features/shared/utils/date";
@@ -22,10 +21,10 @@ const typeIcons: Record<LeaveType, LucideIcon> = {
 
 interface Props {
   row: LeaveResponse;
+  onDelete: (id: number) => Promise<void>;
 }
 
-function LeaveHistoryRow({ row }: Props) {
-  const [deleteLeave] = useDeleteLeaveMutation();
+function LeaveHistoryRow({ row, onDelete }: Props) {
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [editing, setEditing] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout>>(null);
@@ -38,7 +37,7 @@ function LeaveHistoryRow({ row }: Props) {
 
   const handleDelete = () => {
     if (confirmDelete) {
-      deleteLeave(row.id);
+      onDelete(row.id);
     } else {
       setConfirmDelete(true);
       timerRef.current = setTimeout(() => setConfirmDelete(false), 3000);
