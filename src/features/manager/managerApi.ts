@@ -48,11 +48,11 @@ interface LeavesQuery {
 
 export const managerApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getStats: builder.query<StatsResponse, void>({
+    getManagerStats: builder.query<StatsResponse, void>({
       query: () => "/leaves/stats",
       providesTags: ["Stats"],
     }),
-    getLeaves: builder.query<LeavesResponse, LeavesQuery>({
+    getManagerLeaves: builder.query<LeavesResponse, LeavesQuery>({
       query: ({ page = 1, limit = 10, status, type, employee, sortBy, sortOrder }) => ({
         url: "/leaves",
         params: {
@@ -84,4 +84,4 @@ export const managerApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useGetStatsQuery, useGetLeavesQuery, useApproveLeaveMutation, useRejectLeaveMutation } = managerApi;
+export const { useGetManagerStatsQuery, useGetManagerLeavesQuery, useApproveLeaveMutation, useRejectLeaveMutation } = managerApi;

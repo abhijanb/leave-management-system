@@ -1,6 +1,6 @@
 'use client'
 
-import { useGetLeavesQuery } from "@/features/employee/employeeApi";
+import { useGetEmployeeLeavesQuery } from "@/features/employee/employeeApi";
 import Pagination from "@/features/shared/ui/Pagination";
 import TableHead from "./TableHead";
 import ErrorMessage from "@/features/shared/ui/ErrorMessage";
@@ -18,7 +18,7 @@ function LeaveHistoryTable() {
   const [type, setType] = useState<TypeFilterValue>("All");
   const [sortOrder, setSortOrder] = useState<SortOrder>("desc");
 
-  const { data: leaves, isLoading, isError } = useGetLeavesQuery({
+  const { data: leaves, isLoading, isError } = useGetEmployeeLeavesQuery({
     page,
     limit: 10,
     sortBy: "startDate",

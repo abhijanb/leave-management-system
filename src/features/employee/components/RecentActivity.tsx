@@ -1,13 +1,13 @@
 'use client'
 
-import { useGetLeavesQuery } from "@/features/employee/employeeApi";
+import { useGetEmployeeLeavesQuery } from "@/features/employee/employeeApi";
 import ActivityItem from "@/features/shared/ui/ActivityItem";
 import ErrorMessage from "@/features/shared/ui/ErrorMessage";
 import DataState from "@/features/shared/ui/DataState";
 import { memo } from "react";
 
 function RecentActivity() {
-  const { data: leaves, isLoading, isError } = useGetLeavesQuery({ page: 1, limit: 5, sortBy: "startDate", sortOrder: "desc" });
+  const { data: leaves, isLoading, isError } = useGetEmployeeLeavesQuery({ page: 1, limit: 5, sortBy: "startDate", sortOrder: "desc" });
 
   const leavesData = leaves?.data ?? [];
 

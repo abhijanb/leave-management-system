@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useCallback } from "react";
-import { useGetStatsQuery, useGetLeavesQuery } from "@/features/manager/managerApi";
+import { useGetManagerStatsQuery, useGetManagerLeavesQuery } from "@/features/manager/managerApi";
 import RequestsTable from "@/features/manager/components/RequestsTable"
 import StatsCard, { StatsGrid } from "@/features/shared/ui/StatsCard";
 import ErrorMessage from "@/features/shared/ui/ErrorMessage";
@@ -23,8 +23,8 @@ export default function ManagerPage() {
   const [employee, setEmployee] = useState("");
   const [sortOrder, setSortOrder] = useState<SortOrder>("desc");
   const debouncedEmployee = useDebounce(employee, 300);
-  const { data: stats, isLoading: statsLoading, isError: statsError } = useGetStatsQuery();
-  const { data: leaves, isLoading: leavesLoading, isError: leavesError } = useGetLeavesQuery({
+  const { data: stats, isLoading: statsLoading, isError: statsError } = useGetManagerStatsQuery();
+  const { data: leaves, isLoading: leavesLoading, isError: leavesError } = useGetManagerLeavesQuery({
     page, limit: 10,
     status: status === "All" ? undefined : status,
     type: type === "All" ? undefined : type,

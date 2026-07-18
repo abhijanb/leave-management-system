@@ -1,6 +1,6 @@
 'use client'
 
-import { useGetStatsQuery } from "@/features/employee/employeeApi";
+import { useGetEmployeeStatsQuery } from "@/features/employee/employeeApi";
 import LeaveHistoryTable from "@/features/employee/components/LeaveHistoryTable";
 import SummaryItem from "@/features/shared/ui/SummaryItem";
 import ErrorMessage from "@/features/shared/ui/ErrorMessage";
@@ -8,7 +8,7 @@ import { MESSAGES } from "@/features/shared/constants/messages";
 import { Calendar, CalendarX, CalendarCheck } from "lucide-react";
 
 export default function LeaveHistoryPage() {
-  const { data: stats, isLoading: statsLoading, isError: statsError } = useGetStatsQuery();
+  const { data: stats, isLoading: statsLoading, isError: statsError } = useGetEmployeeStatsQuery();
 
   return (
     <div className="space-y-6">

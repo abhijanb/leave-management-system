@@ -37,11 +37,11 @@ export interface UpdateLeaveRequest {
 
 export const employeeApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getStats: builder.query<StatsResponse, void>({
+    getEmployeeStats: builder.query<StatsResponse, void>({
       query: () => "/leaves/stats",
       providesTags: ["Stats"],
     }),
-    getLeaves: builder.query<LeavesResponse, LeavesQuery>({
+    getEmployeeLeaves: builder.query<LeavesResponse, LeavesQuery>({
       query: ({ page = 1, limit = 10, sortBy, sortOrder, status, type }) => ({
         url: "/leaves/mine",
         params: {
@@ -70,4 +70,4 @@ export const employeeApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useGetStatsQuery, useGetLeavesQuery, useCreateLeaveMutation, useUpdateLeaveMutation, useDeleteLeaveMutation } = employeeApi;
+export const { useGetEmployeeStatsQuery, useGetEmployeeLeavesQuery, useCreateLeaveMutation, useUpdateLeaveMutation, useDeleteLeaveMutation } = employeeApi;

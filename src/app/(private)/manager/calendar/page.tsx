@@ -1,14 +1,14 @@
 'use client'
 
 import { useMemo } from "react";
-import { useGetLeavesQuery } from "@/features/manager/managerApi";
+import { useGetManagerLeavesQuery } from "@/features/manager/managerApi";
 import Calendar, { type CalendarEvent } from "@/features/shared/ui/Calendar";
 import ErrorMessage from "@/features/shared/ui/ErrorMessage";
 import { MESSAGES } from "@/features/shared/constants/messages";
 import { parseISO } from "date-fns";
 
 export default function ManagerCalendarPage() {
-  const { data: leaves, isLoading, isError } = useGetLeavesQuery({ page: 1, limit: 500 });
+  const { data: leaves, isLoading, isError } = useGetManagerLeavesQuery({ page: 1, limit: 500 });
 
   const events: CalendarEvent[] = useMemo(() => {
     return (leaves?.data ?? []).map((leave) => ({

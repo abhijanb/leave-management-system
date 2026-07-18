@@ -1,7 +1,7 @@
 'use client'
 
 import { useAppSelector } from "@/features/shared/app/hooks";
-import { useGetStatsQuery } from "@/features/employee/employeeApi";
+import { useGetEmployeeStatsQuery } from "@/features/employee/employeeApi";
 import StatsCard, { StatsGrid } from "@/features/shared/ui/StatsCard";
 import RecentActivity from "@/features/employee/components/RecentActivity";
 import ErrorMessage from "@/features/shared/ui/ErrorMessage";
@@ -9,7 +9,7 @@ import { STATUS_LABELS, MESSAGES } from "@/features/shared/constants/messages";
 
 export default function EmployeePage() {
   const auth = useAppSelector((s) => s.auth);
-  const { data: stats, isLoading: statsLoading, isError: statsError } = useGetStatsQuery();
+  const { data: stats, isLoading: statsLoading, isError: statsError } = useGetEmployeeStatsQuery();
 
   return (
     <div className="space-y-6">
