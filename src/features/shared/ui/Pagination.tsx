@@ -1,4 +1,5 @@
 import { cn } from "@/features/shared/utils/cn";
+import { memo } from "react";
 
 interface Props {
   page: number;
@@ -26,7 +27,7 @@ function getPageNumbers(current: number, total: number): (number | "...")[] {
   return pages;
 }
 
-export function Pagination({ page, totalPages, total, pageSize, onPageChange }: Props) {
+function Pagination({ page, totalPages, total, pageSize, onPageChange }: Props) {
   if (total === 0) return null;
 
   const from = (page - 1) * pageSize + 1;
@@ -68,3 +69,5 @@ export function Pagination({ page, totalPages, total, pageSize, onPageChange }: 
     </div>
   );
 }
+
+export default memo(Pagination);

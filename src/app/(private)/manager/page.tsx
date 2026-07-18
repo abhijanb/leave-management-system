@@ -2,9 +2,9 @@
 
 import { useState, useCallback } from "react";
 import { useGetStatsQuery, useGetLeavesQuery } from "@/features/manager/managerApi";
-import { RequestsTable } from "@/features/manager/components/RequestsTable"
-import { StatsGrid, StatsCard } from "@/features/shared/ui/StatsCard";
-import { ErrorMessage } from "@/features/shared/ui/ErrorMessage";
+import RequestsTable from "@/features/manager/components/RequestsTable"
+import StatsCard, { StatsGrid } from "@/features/shared/ui/StatsCard";
+import ErrorMessage from "@/features/shared/ui/ErrorMessage";
 import { STATUS_LABELS, MESSAGES } from "@/features/shared/constants/messages";
 import type { StatusFilterValue, TypeFilterValue, SortOrder } from "@/features/shared/types";
 

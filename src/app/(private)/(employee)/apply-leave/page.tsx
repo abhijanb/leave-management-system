@@ -1,6 +1,6 @@
 'use client'
 
-import { LeaveForm } from "@/features/employee/components/ui/LeaveForm";
+import LeaveForm from "@/features/employee/components/ui/LeaveForm";
 import { useApplyLeave } from "@/features/employee/hooks/useApplyLeave";
 
 export default function ApplyLeavePage() {

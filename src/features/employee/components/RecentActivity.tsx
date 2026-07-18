@@ -1,11 +1,12 @@
 'use client'
 
 import { useGetLeavesQuery } from "@/features/employee/employeeApi";
-import { ActivityItem } from "@/features/shared/ui/ActivityItem";
-import { ErrorMessage } from "@/features/shared/ui/ErrorMessage";
-import { DataState } from "@/features/shared/ui/DataState";
+import ActivityItem from "@/features/shared/ui/ActivityItem";
+import ErrorMessage from "@/features/shared/ui/ErrorMessage";
+import DataState from "@/features/shared/ui/DataState";
+import { memo } from "react";
 
-export function RecentActivity() {
+function RecentActivity() {
   const { data: leaves, isLoading, isError } = useGetLeavesQuery({ page: 1, limit: 5, sortBy: "startDate", sortOrder: "desc" });
 
   const leavesData = leaves?.data ?? [];
@@ -27,3 +28,5 @@ export function RecentActivity() {
     </div>
   );
 }
+
+export default memo(RecentActivity);

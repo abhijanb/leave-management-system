@@ -2,16 +2,17 @@
 
 import type { LeavesResponse } from "../managerApi";
 import { useApproveLeaveMutation, useRejectLeaveMutation } from "../managerApi";
-import { Pagination } from "@/features/shared/ui/Pagination";
-import { Tooltip } from "@/features/shared/ui/Tooltip";
-import { StatusBadge } from "@/features/shared/ui/StatusBadge";
-import { StatusFilter } from "./StatusFilter";
-import { TypeFilter } from "./TypeFilter";
-import { DataState } from "@/features/shared/ui/DataState";
+import Pagination from "@/features/shared/ui/Pagination";
+import Tooltip from "@/features/shared/ui/Tooltip";
+import StatusBadge from "@/features/shared/ui/StatusBadge";
+import StatusFilter from "./StatusFilter";
+import TypeFilter from "./TypeFilter";
+import DataState from "@/features/shared/ui/DataState";
 import { cn } from "@/features/shared/utils/cn";
 import { ChevronUp, Search } from "lucide-react";
 import { STATUS_LABELS } from "@/features/shared/constants/messages";
 import type { StatusFilterValue, TypeFilterValue, SortOrder } from "@/features/shared/types";
+import { memo } from "react";
 
 interface Props {
   leaves: LeavesResponse | undefined;
@@ -28,7 +29,7 @@ interface Props {
   onSortToggle: () => void;
 }
 
-export function RequestsTable({ leaves, loading, page, setPage, status, setStatus, type, setType, employee, setEmployee, sortOrder, onSortToggle }: Props) {
+function RequestsTable({ leaves, loading, page, setPage, status, setStatus, type, setType, employee, setEmployee, sortOrder, onSortToggle }: Props) {
   const [approve] = useApproveLeaveMutation();
   const [reject] = useRejectLeaveMutation();
 
@@ -128,3 +129,5 @@ export function RequestsTable({ leaves, loading, page, setPage, status, setStatu
     </div>
   )
 }
+
+export default memo(RequestsTable);

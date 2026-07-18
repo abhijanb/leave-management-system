@@ -2,16 +2,16 @@
 
 import type { LeaveResponse } from "@/features/manager/managerApi";
 import { useDeleteLeaveMutation } from "@/features/employee/employeeApi";
-import { Tooltip } from "@/features/shared/ui/Tooltip";
-import { StatusBadge } from "@/features/shared/ui/StatusBadge";
+import Tooltip from "@/features/shared/ui/Tooltip";
+import StatusBadge from "@/features/shared/ui/StatusBadge";
 import { daysBetween, formatDate } from "@/features/shared/utils/date";
 import { cn } from "@/features/shared/utils/cn";
 import { Plane, Stethoscope, Calendar, Briefcase, Pencil, Trash2, Check, Eye } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, memo } from "react";
 import { STATUS_LABELS } from "@/features/shared/constants/messages";
 import type { LeaveType } from "@/features/shared/types";
-import { EditLeaveModal } from "./EditLeaveModal";
+import EditLeaveModal from "./EditLeaveModal";
 
 const typeIcons: Record<LeaveType, LucideIcon> = {
   "Paid Leave": Plane,
@@ -24,7 +24,7 @@ interface Props {
   row: LeaveResponse;
 }
 
-export function LeaveHistoryRow({ row }: Props) {
+function LeaveHistoryRow({ row }: Props) {
   const [deleteLeave] = useDeleteLeaveMutation();
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [editing, setEditing] = useState(false);
@@ -99,3 +99,5 @@ export function LeaveHistoryRow({ row }: Props) {
     </>
   );
 }
+
+export default memo(LeaveHistoryRow);

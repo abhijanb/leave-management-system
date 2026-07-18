@@ -1,4 +1,5 @@
 import { cn } from "@/features/shared/utils/cn";
+import { memo } from "react";
 
 interface CardProps {
   label: string;
@@ -9,7 +10,7 @@ interface CardProps {
   onClick?: () => void;
 }
 
-export function StatsCard({ label, value, color, loading, active, onClick }: CardProps) {
+function StatsCard({ label, value, color, loading, active, onClick }: CardProps) {
   return (
     <button
       onClick={onClick}
@@ -28,6 +29,8 @@ export function StatsCard({ label, value, color, loading, active, onClick }: Car
     </button>
   );
 }
+
+export default memo(StatsCard);
 
 interface GridProps {
   children: React.ReactNode;

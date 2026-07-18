@@ -1,4 +1,5 @@
 import { cn } from "@/features/shared/utils/cn";
+import { memo } from "react";
 
 const columns = [
   { label: "Type" },
@@ -10,7 +11,7 @@ const columns = [
   { label: "Actions", align: "right" as const },
 ];
 
-export function TableHead() {
+function TableHead() {
   return (
     <thead>
       <tr className="border-b border-outline-variant text-left text-xs text-on-surface-variant uppercase tracking-wider">
@@ -23,3 +24,5 @@ export function TableHead() {
     </thead>
   );
 }
+
+export default memo(TableHead);

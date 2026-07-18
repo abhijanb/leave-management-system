@@ -1,4 +1,5 @@
 import { MESSAGES } from "@/features/shared/constants/messages";
+import { memo } from "react";
 
 interface Props {
   loading: boolean;
@@ -7,7 +8,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-export function DataState({ loading, empty, colSpan, children }: Props) {
+function DataState({ loading, empty, colSpan, children }: Props) {
   if (loading) {
     const msg = <span>{MESSAGES.loading}</span>;
     return colSpan ? (
@@ -28,3 +29,5 @@ export function DataState({ loading, empty, colSpan, children }: Props) {
 
   return <>{children}</>;
 }
+
+export default memo(DataState);

@@ -3,14 +3,15 @@
 import { X } from "lucide-react";
 import type { LeaveResponse } from "@/features/manager/managerApi";
 import { useEditLeave } from "../hooks/useEditLeave";
-import { LeaveForm } from "./ui/LeaveForm";
+import LeaveForm from "./ui/LeaveForm";
+import { memo } from "react";
 
 interface Props {
   leave: LeaveResponse;
   onClose: () => void;
 }
 
-export function EditLeaveModal({ leave, onClose }: Props) {
+function EditLeaveModal({ leave, onClose }: Props) {
   const { register, handleSubmit, errors, isLoading, onSubmit } = useEditLeave(leave, onClose);
 
   return (
@@ -38,3 +39,5 @@ export function EditLeaveModal({ leave, onClose }: Props) {
     </div>
   );
 }
+
+export default memo(EditLeaveModal);

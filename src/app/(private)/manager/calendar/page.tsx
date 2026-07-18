@@ -2,8 +2,8 @@
 
 import { useMemo } from "react";
 import { useGetLeavesQuery } from "@/features/manager/managerApi";
-import { Calendar, type CalendarEvent } from "@/features/shared/ui/Calendar";
-import { ErrorMessage } from "@/features/shared/ui/ErrorMessage";
+import Calendar, { type CalendarEvent } from "@/features/shared/ui/Calendar";
+import ErrorMessage from "@/features/shared/ui/ErrorMessage";
 import { MESSAGES } from "@/features/shared/constants/messages";
 import { parseISO } from "date-fns";
 

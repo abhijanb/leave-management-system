@@ -2,9 +2,9 @@
 
 import { useAppSelector } from "@/features/shared/app/hooks";
 import { useGetStatsQuery } from "@/features/employee/employeeApi";
-import { StatsGrid, StatsCard } from "@/features/shared/ui/StatsCard";
-import { RecentActivity } from "@/features/employee/components/RecentActivity";
-import { ErrorMessage } from "@/features/shared/ui/ErrorMessage";
+import StatsCard, { StatsGrid } from "@/features/shared/ui/StatsCard";
+import RecentActivity from "@/features/employee/components/RecentActivity";
+import ErrorMessage from "@/features/shared/ui/ErrorMessage";
 import { STATUS_LABELS, MESSAGES } from "@/features/shared/constants/messages";
 
 export default function EmployeePage() {

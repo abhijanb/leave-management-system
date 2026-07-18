@@ -1,18 +1,18 @@
 'use client'
 
 import { useGetLeavesQuery } from "@/features/employee/employeeApi";
-import { Pagination } from "@/features/shared/ui/Pagination";
-import { TableHead } from "./TableHead";
-import { ErrorMessage } from "@/features/shared/ui/ErrorMessage";
-import { DataState } from "@/features/shared/ui/DataState";
-import { LeaveHistoryRow } from "./LeaveHistoryRow";
-import { useState } from "react";
+import Pagination from "@/features/shared/ui/Pagination";
+import TableHead from "./TableHead";
+import ErrorMessage from "@/features/shared/ui/ErrorMessage";
+import DataState from "@/features/shared/ui/DataState";
+import LeaveHistoryRow from "./LeaveHistoryRow";
+import { useState, memo } from "react";
 import { cn } from "@/features/shared/utils/cn";
 import { ChevronUp } from "lucide-react";
 import { STATUS_OPTIONS, TYPE_OPTIONS, MESSAGES } from "@/features/shared/constants/messages";
 import type { SortOrder, StatusFilterValue, TypeFilterValue } from "@/features/shared/types";
 
-export function LeaveHistoryTable() {
+function LeaveHistoryTable() {
   const [page, setPage] = useState(1);
   const [status, setStatus] = useState<StatusFilterValue>("All");
   const [type, setType] = useState<TypeFilterValue>("All");
@@ -90,3 +90,5 @@ export function LeaveHistoryTable() {
     </div>
   );
 }
+
+export default memo(LeaveHistoryTable);

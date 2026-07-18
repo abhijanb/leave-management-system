@@ -1,5 +1,6 @@
 import { cn } from "@/features/shared/utils/cn";
 import type { LucideIcon } from "lucide-react";
+import { memo } from "react";
 
 interface Props {
   icon: LucideIcon;
@@ -9,7 +10,7 @@ interface Props {
   loading?: boolean;
 }
 
-export function SummaryItem({ icon: Icon, label, value, valueClassName, loading }: Props) {
+function SummaryItem({ icon: Icon, label, value, valueClassName, loading }: Props) {
   return (
     <div className="flex items-center gap-3">
       <div className="p-2 bg-primary/10 rounded-lg">
@@ -22,3 +23,5 @@ export function SummaryItem({ icon: Icon, label, value, valueClassName, loading 
     </div>
   );
 }
+
+export default memo(SummaryItem);

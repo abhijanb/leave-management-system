@@ -1,13 +1,13 @@
 'use client'
 
-import { useState, useRef } from "react";
+import { useState, useRef, memo } from "react";
 
 interface Props {
   content: string;
   children: React.ReactNode;
 }
 
-export function Tooltip({ content, children }: Props) {
+function Tooltip({ content, children }: Props) {
   const [pos, setPos] = useState<{ x: number; y: number } | null>(null);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -33,3 +33,5 @@ export function Tooltip({ content, children }: Props) {
     </div>
   );
 }
+
+export default memo(Tooltip);

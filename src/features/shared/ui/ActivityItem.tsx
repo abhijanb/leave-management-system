@@ -1,9 +1,10 @@
 import { Clock, CheckCircle, XCircle } from "lucide-react";
 import type { LeaveResponse } from "@/features/manager/managerApi";
-import { StatusBadge } from "./StatusBadge";
+import StatusBadge from "./StatusBadge";
 import { cn } from "@/features/shared/utils/cn";
 import { statusStyles } from "@/features/shared/constants/status";
 import type { LeaveStatus } from "@/features/shared/types";
+import { memo } from "react";
 
 const statusIconMap: Record<LeaveStatus, React.ComponentType<{ className?: string }>> = {
   Pending: Clock,
@@ -15,12 +16,12 @@ interface Props {
   leave: LeaveResponse;
 }
 
-export function ActivityItem({ leave }: Props) {
+function ActivityItem({ leave }: Props) {
   const Icon = statusIconMap[leave.status] ?? Clock;
 
   return (
     <div className="p-4 hover:bg-surface-container-low transition-colors flex items-start gap-3">
-      <div className={cn("w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0", statusStyles[leave.status])}>
+      <div className={cn("w-9 h-9 rounded-full flex items-center justify-center shrink-0", statusStyles[leave.status])}>
         <Icon className="w-4 h-4" />
       </div>
       <div className="flex-1 min-w-0">
@@ -36,3 +37,5 @@ export function ActivityItem({ leave }: Props) {
     </div>
   );
 }
+
+export default memo(ActivityItem);

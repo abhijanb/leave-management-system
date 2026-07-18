@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, memo } from "react";
 import { cn } from "@/features/shared/utils/cn";
 import { ChevronDown } from "lucide-react";
 import { STATUS_OPTIONS } from "@/features/shared/constants/messages";
@@ -11,7 +11,7 @@ interface Props {
   onChange: (status: StatusFilterValue) => void;
 }
 
-export function StatusFilter({ value, onChange }: Props) {
+function StatusFilter({ value, onChange }: Props) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -52,3 +52,5 @@ export function StatusFilter({ value, onChange }: Props) {
     </div>
   );
 }
+
+export default memo(StatusFilter);

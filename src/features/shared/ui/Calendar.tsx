@@ -4,6 +4,7 @@ import { Calendar as BigCalendar } from "react-big-calendar";
 import type { View } from "react-big-calendar";
 import { localizer } from "../lib/calendar";
 import type { Event } from "react-big-calendar";
+import { memo } from "react";
 
 export interface CalendarEvent extends Event {
   id: number;
@@ -26,7 +27,7 @@ const statusStyles: Record<CalendarEvent["status"], string> = {
   Rejected: "bg-rejected-bg text-rejected-text border border-rejected-text",
 };
 
-export function Calendar({ events, defaultView = "month", selectable = false, onSelectEvent }: Props) {
+function Calendar({ events, defaultView = "month", selectable = false, onSelectEvent }: Props) {
   return (
     <div className="rbc-calendar">
       <BigCalendar<CalendarEvent>
@@ -46,3 +47,5 @@ export function Calendar({ events, defaultView = "month", selectable = false, on
     </div>
   );
 }
+
+export default memo(Calendar);

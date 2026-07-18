@@ -1,6 +1,7 @@
 import { UseFormRegister, FieldErrors } from "react-hook-form";
 import { TYPE_OPTIONS } from "@/features/shared/constants/messages";
 import { LeaveType } from "@/features/shared/types";
+import { memo } from "react";
 
 export interface LeaveFormData {
   type: LeaveType;
@@ -21,7 +22,7 @@ interface Props {
 
 const leaveTypes = TYPE_OPTIONS.filter((t) => t !== "All") as LeaveType[];
 
-export function LeaveForm({
+function LeaveForm({
   register,
   submitForm,
   errors,
@@ -110,3 +111,5 @@ export function LeaveForm({
         </form>
     )
 }
+
+export default memo(LeaveForm);
