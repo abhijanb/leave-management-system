@@ -13,10 +13,7 @@ export const LoginForm = memo(function LoginForm() {
                 {errors.email && <p className="text-xs text-error mt-1">{errors.email.message}</p>}
             </div>
             <div>
-                <div className="flex justify-between items-center mb-1">
-                    <label className="text-xs font-medium text-on-surface-variant uppercase tracking-wider" htmlFor="password">Password</label>
-                    <a className="text-xs text-primary hover:underline" href="#">Forgot?</a>
-                </div>
+                <label className="text-xs font-medium text-on-surface-variant uppercase tracking-wider block mb-1" htmlFor="password">Password</label>
                 <input className="w-full px-4 py-2 bg-background border border-outline-variant rounded-md text-on-surface placeholder-outline focus:outline-none focus:border-primary" id="password" type="password" placeholder="Password" {...register("password")} />
                 {errors.password && <p className="text-xs text-error mt-1">{errors.password.message}</p>}
             </div>
