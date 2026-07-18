@@ -8,6 +8,20 @@ export interface LeaveUser {
   role: UserRole;
 }
 
+export interface EmployeesResponse {
+  data: LeaveUser[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}
+
+interface EmployeesQuery {
+  page?: number;
+  limit?: number;
+  search?: string;
+}
+
 export interface LeaveResponse {
   id: number;
   userId: number;
@@ -67,8 +81,15 @@ export const managerApi = baseApi.injectEndpoints({
       }),
       providesTags: ["Leaves"],
     }),
-    getEmployees: builder.query<LeaveUser[], void>({
-      query: () => "/users",
+    getEmployees: builder.query<EmployeesResponse, EmployeesQuery>({
+      query: ({ page = 1, limit = 10, search }) => ({
+        url: "/users",
+        params: {
+          page,
+          limit,
+          ...(search && { search }),
+        },
+      }),
       providesTags: ["Employees"],
     }),
     approveLeave: builder.mutation<LeaveResponse, number>({

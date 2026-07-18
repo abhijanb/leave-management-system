@@ -5,16 +5,23 @@ import { Search } from "lucide-react";
 import { useGetEmployeesQuery } from "@/features/manager/managerApi";
 import { useDebounce } from "@/features/shared/hooks/useDebounce";
 import ErrorMessage from "@/features/shared/ui/ErrorMessage";
+import Pagination from "@/features/shared/ui/Pagination";
 import { MESSAGES } from "@/features/shared/constants/messages";
 
 function EmployeeListPage() {
-  const { data: employees, isLoading, isError } = useGetEmployeesQuery();
   const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
   const debouncedSearch = useDebounce(search, 300);
 
-  const filtered = (employees ?? []).filter(
-    (e) => e.name.toLowerCase().includes(debouncedSearch.toLowerCase()) || e.email.toLowerCase().includes(debouncedSearch.toLowerCase()),
-  );
+  const { data, isLoading, isError } = useGetEmployeesQuery({
+    page,
+    limit: 10,
+    search: debouncedSearch || undefined,
+  });
+
+  const employees = data?.data ?? [];
+  const total = data?.total ?? 0;
+  const totalPages = data?.totalPages ?? 1;
 
   return (
     <>
@@ -33,7 +40,7 @@ function EmployeeListPage() {
               type="text"
               placeholder="Search employees..."
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) => { setSearch(e.target.value); setPage(1); }}
               className="w-full pl-9 pr-3 py-2 text-sm bg-background border border-outline-variant rounded-md text-on-surface placeholder-outline focus:outline-none focus:border-primary"
             />
           </div>
@@ -51,13 +58,13 @@ function EmployeeListPage() {
               </div>
             ))}
           </div>
-        ) : filtered.length === 0 ? (
+        ) : employees.length === 0 ? (
           <div className="p-8 text-center text-sm text-on-surface-variant">
             {search ? "No employees match your search." : "No employees found."}
           </div>
         ) : (
           <div className="divide-y divide-outline-variant">
-            {filtered.map((employee) => (
+            {employees.map((employee) => (
               <div key={employee.id} className="flex items-center gap-4 px-4 py-3 hover:bg-surface-container-low transition-colors">
                 <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary text-sm font-bold shrink-0">
                   {employee.name[0].toUpperCase()}
@@ -73,6 +80,14 @@ function EmployeeListPage() {
             ))}
           </div>
         )}
+
+        <Pagination
+          page={page}
+          totalPages={totalPages}
+          total={total}
+          pageSize={10}
+          onPageChange={setPage}
+        />
       </div>
     </>
   )
