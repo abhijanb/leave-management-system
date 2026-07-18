@@ -4,11 +4,12 @@ import { memo } from "react";
 interface Props {
   loading: boolean;
   empty?: boolean;
+  emptyMessage?: string;
   colSpan?: number;
   children: React.ReactNode;
 }
 
-function DataState({ loading, empty, colSpan, children }: Props) {
+function DataState({ loading, empty, emptyMessage, colSpan, children }: Props) {
   if (loading) {
     const msg = <span>{MESSAGES.loading}</span>;
     return colSpan ? (
@@ -19,7 +20,7 @@ function DataState({ loading, empty, colSpan, children }: Props) {
   }
 
   if (empty) {
-    const msg = <span>{MESSAGES.empty}</span>;
+    const msg = <span>{emptyMessage ?? MESSAGES.empty}</span>;
     return colSpan ? (
       <tr><td colSpan={colSpan} className="p-8 text-center text-sm text-on-surface-variant">{msg}</td></tr>
     ) : (
