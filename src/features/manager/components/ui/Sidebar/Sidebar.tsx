@@ -1,9 +1,9 @@
 'use client'
 
 import { memo } from 'react'
-import { Calendar, FilePlus, History, LayoutDashboard, LogOut } from 'lucide-react'
+import { Calendar, FilePlus, History, LayoutDashboard, LogOut, Menu } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
-import { setCollapsed } from './sidebarSlice'
+import { toggleCollapsed } from './sidebarSlice'
 import { useAppDispatch, useAppSelector } from '@/features/shared/app/hooks'
 import { clearUser } from '@/features/auth/authSlice'
 import { useRouter } from 'next/navigation'
@@ -48,14 +48,16 @@ export const Sidebar = memo(function Sidebar({ role }: SidebarProps) {
 
   return (
     <aside
-      onMouseEnter={() => dispatch(setCollapsed(false))}
-      onMouseLeave={() => dispatch(setCollapsed(true))}
       className={cn("border-r border-outline-variant bg-surface flex flex-col transition-all duration-200", collapsed ? 'w-16' : 'w-60')}
     >
       <div className="h-16 flex items-center gap-3 px-4 border-b border-outline-variant">
-        <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-on-primary text-sm font-bold shrink-0">
-          L
-        </div>
+        <button
+          onClick={() => dispatch(toggleCollapsed())}
+          className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-surface-container-high transition-colors shrink-0"
+          title={collapsed ? 'Open menu' : 'Close menu'}
+        >
+          <Menu className="w-5 h-5 text-on-surface-variant" />
+        </button>
         {!collapsed && <h1 className="text-lg font-bold text-primary truncate">Leave</h1>}
       </div>
 
