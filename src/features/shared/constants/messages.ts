@@ -16,4 +16,5 @@ export const MESSAGES = {
   errorStats: "Failed to load stats.",
   errorLeaves: "Failed to load leave requests.",
   errorActivity: "Failed to load recent activity.",
+  errorEmployees: "Failed to load employees.",
 } as const;

@@ -1,7 +1,7 @@
 'use client'
 
 import { memo } from 'react'
-import { Calendar, FilePlus, History, LayoutDashboard, LogOut, Menu } from 'lucide-react'
+import { Calendar, FilePlus, History, LayoutDashboard, LogOut, Menu, Users } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { toggleCollapsed } from './sidebarSlice'
 import { useAppDispatch, useAppSelector } from '@/features/shared/app/hooks'
@@ -20,6 +20,7 @@ interface NavItem {
 const managerItems: NavItem[] = [
   { label: "Dashboard", href: "/manager", icon: LayoutDashboard },
   { label: "Calendar", href: "/manager/calendar", icon: Calendar },
+  { label: "Employees", href: "/manager/employees", icon: Users },
 ]
 
 const employeeItems: NavItem[] = [
