@@ -10,6 +10,7 @@ import TypeFilter from "./TypeFilter";
 import DataState from "@/features/shared/ui/DataState";
 import { cn } from "@/features/shared/utils/cn";
 import { ChevronUp, Search } from "lucide-react";
+import { formatDate } from "@/features/shared/utils/date";
 import { STATUS_LABELS } from "@/features/shared/constants/messages";
 import type { StatusFilterValue, TypeFilterValue, SortOrder } from "@/features/shared/types";
 import { memo } from "react";
@@ -83,7 +84,7 @@ function RequestsTable({ leaves, loading, page, setPage, status, setStatus, type
                     <div className="text-xs text-on-surface-variant">{row.user.role}</div>
                   </td>
                   <td className="p-4 text-on-surface">{row.type}</td>
-                  <td className="p-4 text-on-surface">{row.startDate} — {row.endDate}</td>
+                  <td className="p-4 text-on-surface">{formatDate(row.startDate)} — {formatDate(row.endDate)}</td>
                   <td className="p-4 text-on-surface text-xs whitespace-nowrap">
                     <Tooltip content={row.reason}>
                       <span className="max-w-40 inline-block truncate cursor-default">{row.reason}</span>
