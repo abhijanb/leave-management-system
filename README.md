@@ -102,3 +102,6 @@ The app will be available at `http://localhost:3000`.
 |------|-------|----------|
 | Employee | employee1@leave.com | password123 |
 | Manager | manager@leave.com | password123 |
+
+
+# Important note: database is hosted on free tier so it may take some time to wake up the server if it has been idle for a while (which is very short time). Please be patient when accessing the application after a period of inactivity.
