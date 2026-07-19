@@ -1,7 +1,7 @@
 'use client'
 
-import type { LeavesResponse, LeaveResponse } from "../managerApi";
-import { useApproveLeaveMutation, useRejectLeaveMutation } from "../managerApi";
+import type { LeavesResponse } from "../managerApi";
+import { useApproveLeave, useRejectLeave } from "../hooks";
 import Pagination from "@/features/shared/ui/Pagination";
 import Tooltip from "@/features/shared/ui/Tooltip";
 import StatusBadge from "@/features/shared/ui/StatusBadge";
@@ -12,9 +12,8 @@ import { cn } from "@/features/shared/utils/cn";
 import { ChevronUp, Search } from "lucide-react";
 import { formatDate } from "@/features/shared/utils/date";
 import { STATUS_LABELS } from "@/features/shared/constants/messages";
-import type { StatusFilterValue, TypeFilterValue, SortOrder, LeaveStatus } from "@/features/shared/types";
-import { memo, useState } from "react";
-import { toast } from "sonner";
+import type { StatusFilterValue, TypeFilterValue, SortOrder } from "@/features/shared/types";
+import { memo } from "react";
 
 interface Props {
   leaves: LeavesResponse | undefined;
@@ -33,36 +32,13 @@ interface Props {
 }
 
 function RequestsTable({ leaves, loading, fetching, page, setPage, status, setStatus, type, setType, employee, setEmployee, sortOrder, onSortToggle }: Props) {
-  const [approve] = useApproveLeaveMutation();
-  const [reject] = useRejectLeaveMutation();
-  const [optimisticStatus, setOptimisticStatus] = useState<Record<number, LeaveStatus>>({});
+  const { handleApprove, getDisplayStatus: getApproveStatus } = useApproveLeave();
+  const { handleReject, getDisplayStatus: getRejectStatus } = useRejectLeave();
 
-  const handleApprove = async (id: number) => {
-    setOptimisticStatus((prev) => ({ ...prev, [id]: "Approved" }));
-    try {
-      await approve(id).unwrap();
-    } catch {
-      setOptimisticStatus((prev) => {
-        const next = { ...prev };
-        delete next[id];
-        return next;
-      });
-      toast.error("Failed to approve leave request");
-    }
-  };
-
-  const handleReject = async (id: number) => {
-    setOptimisticStatus((prev) => ({ ...prev, [id]: "Rejected" }));
-    try {
-      await reject(id).unwrap();
-    } catch {
-      setOptimisticStatus((prev) => {
-        const next = { ...prev };
-        delete next[id];
-        return next;
-      });
-      toast.error("Failed to reject leave request");
-    }
+  const getDisplayStatus = (id: number, fallback: any) => {
+    const approved = getApproveStatus(id, fallback);
+    if (approved !== fallback) return approved;
+    return getRejectStatus(id, fallback);
   };
 
   const rows = leaves?.data ?? [];
@@ -122,10 +98,10 @@ function RequestsTable({ leaves, loading, fetching, page, setPage, status, setSt
                     </Tooltip>
                   </td>
                   <td className="p-4">
-                    <StatusBadge status={optimisticStatus[row.id] ?? row.status} />
+                    <StatusBadge status={getDisplayStatus(row.id, row.status)} />
                   </td>
                   <td className="p-4 text-right">
-                    {(optimisticStatus[row.id] ?? row.status) === STATUS_LABELS.Pending ? (
+                    {getDisplayStatus(row.id, row.status) === STATUS_LABELS.Pending ? (
                       <div className="flex gap-1 justify-end">
                         <button
                           onClick={() => handleApprove(row.id)}
