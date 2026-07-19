@@ -1,62 +1,104 @@
-Assessment Task: Employee Leave Management System (Frontend)
+# Employee Leave Management System (Frontend)
 
-### Requirement of Assignment
-seperate dashboard for both employee and manager with some details for quick overview of leave requests.
+A full-stack leave management application with separate dashboards for managers and employees, built with Next.js, RTK Query, and Tailwind CSS.
 
-auth with jwt 
+## Project Overview
 
-two type of users: Employee and Manager. 
+The system allows employees to apply for, edit, and delete leave requests, and view their leave history. Managers can view all requests, filter by employee/type/status, approve or reject pending requests, and see a dashboard with summary stats.
 
-employees can apply for leave and view their leave history, 
-edit or delete pending leave requests -> only pending request can be delete or edit,
-each leave should have 
-leave type -> Sick Leave, Casual Leave, Paid Leave, Unpaid Leave something similar,
-start date -> which should be after today 
-end date -> which should be after start date
-reason -> reason for leave
+### Features
 
-employees can view their leave history, including the status of each request (Pending, Approved, Rejected),
+- **Authentication** — JWT-based login with role-based routing (Employee / Manager)
+- **Employee Dashboard** — Stats overview, apply for leave, view/edit/delete pending requests, leave history with filter/sort/pagination, calendar view
+- **Manager Dashboard** — Stats overview (clickable to filter), view all leave requests, approve/reject pending requests, employee list with search and detail view
+- **Dark Mode** — Toggle between light and dark themes
+- **Responsive Design** — Mobile-friendly sidebar, responsive tables and grids
+- **Optimistic UI** — Approve/reject/delete updates reflect instantly before server confirmation
+- **Skeleton Loaders** — Loading states for tables, stats, and calendar
+- **Form Validation** — Zod + react-hook-form with date range and 30-day max duration checks
 
-while managers can view all leave requests and approve or reject them.
+## Tech Stack
 
-manager dashboard requirement 
-view all leave requests
-filter requests by employee, leave type, or status
-approve or reject pending requests
-total leave requests, pending requests, approved requests, and rejected requests should be displayed on the dashboard for quick overview. ->should be clean, interactive and clickable to view the list of requests in that category.
+- **Framework:** Next.js 16 (App Router)
+- **State Management:** Redux Toolkit + RTK Query
+- **Styling:** Tailwind CSS v4
+- **Forms:** react-hook-form + zod
+- **Icons:** lucide-react
+- **Toasts:** sonner
+- **Calendar:** react-big-calendar
+- **Language:** TypeScript
 
-Technical Expectations
-Your solution should demonstrate:
-Clean folder structure
-Reusable components
-API abstraction -> simple to use
-Responsive design
-Proper state management
-Loading, empty, and error states
-Form validation
-Clean and maintainable code
-rtk redux -> state management and rtk query
+## Folder Structure
 
-Bonus (Optional)
-If time permits, you may also include:
-Dark mode
-Charts or analytics
-Skeleton loaders
-Optimistic UI updates
-TypeScript
+```
+src/
+├── app/
+│   ├── (auth)/login/          # Login page
+│   ├── (private)/
+│   │   ├── manager/           # Manager dashboard, requests, employees
+│   │   ├── employee/          # Employee dashboard, apply leave
+│   │   ├── leave-history/     # Leave history with filter/sort
+│   │   ├── calendar/          # Calendar view
+│   │   └── layout.tsx         # Sidebar + header layout
+│   └── layout.tsx             # Root layout with Redux provider
+├── features/
+│   ├── auth/                  # Login API, auth types
+│   ├── employee/              # Employee API, hooks, schemas, components
+│   ├── manager/               # Manager API, hooks, components
+│   ├── shared/                # Reusable UI, utils, constants, types
+│   └── ThemeToggle/           # Dark mode toggle
+```
 
-Submission Instructions
-1. Create a new public GitHub repository for this assignment.
-2. Commit your work with meaningful commit messages throughout development.
-3. Include a README containing:
-Project overview
-Setup instructions
-Environment variables (if applicable)
-Any assumptions you made during implementation
-4. Reply to this email with:
-Your GitHub repository link
-Your full name
-Submission Deadline: Sunday, 19th July 2026 . @ 1:00 PM 
+## Setup Instructions
 
-Note: The requirements intentionally leave some implementation details open. You are encouraged to make reasonable design decisions and document your assumptions in the README. We are interested in understanding how you think through user experience, component architecture, and application structure—not just the final interface.
+### Prerequisites
 
+- Node.js 18+
+- pnpm or yarn
+
+### Installation
+
+```bash
+# Install dependencies
+pnpm install
+
+# Set up environment variables (see below)
+cp .env.example .env
+
+# Run the development server
+pnpm run dev
+```
+
+The app will be available at `http://localhost:3000`.
+
+### Scripts
+
+| Command | Description |
+|---------|-------------|
+| `pnpm run dev` | Start development server |
+| `pnpm run build` | Production build |
+| `pnpm run start` | Start production server |
+| `pnpm run lint` | Run ESLint |
+
+## Environment Variables
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `NEXT_PUBLIC_API_URL` | Backend API base URL | `https://localhost:4000` |
+
+## Assumptions
+
+1. **Leave types** — Fixed to: Paid Leave, Sick Leave, Casual Leave, Unpaid Leave.
+2. **Edit/delete restricted** — Only pending leaves can be edited or deleted.
+3. **Manager approval** — Managers can only approve or reject; they cannot edit leave details.
+4. **Server-side pagination** — Both manager and employee leave lists use server-side pagination with 10 items per page.
+5. **Optimistic updates** — Approve/reject (manager) and delete (employee) use optimistic UI via component-level state with tag-based refetch for server consistency.
+6. **Theme persistence** — Dark mode preference is stored in localStorage.
+7. **No signup** — Users are pre-registered; no signup flow is implemented.
+
+
+## Login Credentials
+| Role | Email | Password |
+|------|-------|----------|
+| Employee | employee1@leave.com | password123 |
+| Manager | manager@leave.com | password123 |
